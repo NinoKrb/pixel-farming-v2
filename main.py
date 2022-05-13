@@ -18,6 +18,33 @@ class CollisionLayer(ImageLayer):
     def __init__(self, filename):
         super().__init__(filename)
 
+class Cursor():
+    def __init__(self, filename):
+        self.action = "hand"
+        self.pos = (0,0)
+        pygame.mouse.set_visible(False)
+        self.update_sprite(filename)
+
+    def update(self):
+        self.pos = pygame.mouse.get_pos()
+        self.set_pos(*self.pos)
+
+    def set_pos(self, x, y):
+        self.rect.x, self.rect.y = x, y
+
+    def update_sprite(self, filename):
+        self.image = pygame.image.load(os.path.join(Settings.path_cursors, filename)).convert_alpha()
+        self.image = pygame.transform.scale(self.image, Settings.cursor_size)
+        self.rect = self.image.get_rect()
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
+    def get_pressed(self, buttons):
+        if pygame.mouse.get_pressed(num_buttons=3) == buttons:
+            return True
+
+
 class Game():
     def __init__(self):
         super().__init__()
@@ -29,13 +56,15 @@ class Game():
         self.background = ImageLayer("floor.png")
         self.collision_layer = CollisionLayer("collision.png")
 
-        self.field_manager = FieldManager()
+        self.cursor = Cursor(Settings.cursors['default'])
 
-        self.character = Character(options={ 
-            'base': "base", 
-            'haircut': "curlyhair", 
-            'tools': "tools"
-        }, size=Settings.player_size, pos=(0,0))
+        self.field_manager = FieldManager(self)
+
+        # self.character = Character(options={ 
+        #    'base': "base", 
+        #    'haircut': "curlyhair", 
+        #    'tools': "tools"
+        # }, size=Settings.player_size, pos=(0,0))
 
         self.running = True 
 
@@ -48,13 +77,15 @@ class Game():
     
     def update(self):
         self.field_manager.update()
-        self.character.update()
+        self.cursor.update()
+        # self.character.update()
 
     def draw(self):
         self.background.draw(self.screen)
         self.collision_layer.draw(self.screen)
         self.field_manager.draw_fields(self.screen)
-        self.character.draw(self.screen)
+        self.cursor.draw(self.screen)
+        # self.character.draw(self.screen)
         pygame.display.flip()
 
     def watch_for_events(self):
