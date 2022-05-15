@@ -45,15 +45,18 @@ class CropTile(FieldTile):
         self.is_watered = False
 
     def get_growth_state(self, id):
-        return self.attributes['tiles'][id - 1]
+        for tile in self.attributes['tiles']:
+            if tile['growth_state'] == id:
+                return tile
+        return False
 
     def update(self):
         self.cursor_logic()
         if self.growth_timer.is_next_stop_reached():
             self.grow()
+            
         if self.watering_timer.is_next_stop_reached():
             self.is_watered = False
-            print("RESET WATER TIMER")
 
     def cursor_logic(self):
         if self.check_cursor_position():
@@ -87,13 +90,13 @@ class CropTile(FieldTile):
         if self.growth_state != self.attributes['max_growth_state']:
             self.growth_state += 1
             state = self.get_growth_state(self.growth_state)
-            self.update_sprite(state['image'], self.pos, self.size)
+            if state != False:
+                self.update_sprite(state['image'], self.pos, self.size)
 
     def harvest(self):
-        state = self.get_growth_state(1)
-        print(state)
+        state = self.get_growth_state(0)
         self.update_sprite(state['image'], self.pos, self.size)
-        print("Harvesting")
+        self.growth_state = 0
 
     def update_sprite(self, filename, pos, size):
         self.image = pygame.image.load(os.path.join(Settings.path_crops, filename)).convert_alpha()
