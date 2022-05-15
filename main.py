@@ -1,9 +1,11 @@
-import pygame, os, csv, json, random
+import pygame, os
 from settings import Settings
 from classes.player import Character
 from classes.timer import Timer
 from classes.cursor import Cursor
-from classes.fields import *
+from classes.fields import FieldManager
+from classes.item import ItemManager
+from classes.inventory import Inventory
 
 class ImageLayer(pygame.sprite.Sprite):
     def __init__(self, filename):
@@ -18,7 +20,6 @@ class ImageLayer(pygame.sprite.Sprite):
 class CollisionLayer(ImageLayer):
     def __init__(self, filename):
         super().__init__(filename)
-
 
 class Game():
     def __init__(self):
@@ -40,6 +41,11 @@ class Game():
         #    'haircut': "curlyhair", 
         #    'tools': "tools"
         # }, size=Settings.player_size, pos=(0,0))
+
+        self.item_manager = ItemManager()
+
+        self.inventory = Inventory()
+        self.inventory.initialize_itemstacks(self.item_manager.items)
 
         self.running = True 
 

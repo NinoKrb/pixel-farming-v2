@@ -41,3 +41,5 @@ class Settings(object):
         "hand_2_open": "hand_open_02.png",
         "hand_2_closed": "hand_closed_02.png"
     }
+
+    item_type_filename = "items.json"
