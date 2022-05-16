@@ -1,0 +1,59 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "name" : "Rote Beete",
+            "image": "beetroot_05.png"
+        },
+        {
+            "id": 2,
+            "name" : "Kraut",
+            "image": "cabbage_05.png"
+        },
+        {
+            "id": 3,
+            "name" : "Blumenkohl",
+            "image": "cauliflower_05.png"
+        },
+        {
+            "id": 4,
+            "name" : "Grünkohl",
+            "image": "kale_05.png"
+        },
+        {
+            "id": 5,
+            "name" : "Pastinake",
+            "image": "parsnip_05.png"
+        },
+        {
+            "id": 6,
+            "name" : "Kürbis",
+            "image": "pumpkin_05.png"
+        },
+        {
+            "id": 7,
+            "name" : "Kartoffel",
+            "image": "potato_05.png"
+        },
+        {
+            "id": 8,
+            "name" : "Radischen",
+            "image": "radish_05.png"
+        },
+        {
+            "id": 9,
+            "name" : "Sonnenblume",
+            "image": "sunflower_05.png"
+        },
+        {
+            "id": 10,
+            "name" : "Karotte",
+            "image": "carrot_05.png"
+        },
+        {
+            "id": 11,
+            "name" : "Weizen",
+            "image": "wheat_05.png"
+        }
+    ]
+}

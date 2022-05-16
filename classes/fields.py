@@ -9,8 +9,9 @@ class Field():
         self.crop_tiles = crop_tiles
 
 class FieldTile(pygame.sprite.Sprite):
-    def __init__(self, filename, pos, size):
+    def __init__(self, game, filename, pos, size):
         super().__init__()
+        self.game = game
         self.filename = filename
         self.pos = pos
         self.size = size
@@ -31,21 +32,74 @@ class FieldTile(pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
 
 class CropTile(FieldTile):
-    def __init__(self, attributes, pos, size):
-        super().__init__(attributes['fallback_image'], pos, size)
+    def __init__(self, game, attributes, pos, size):
+        super().__init__(game, attributes['fallback_image'], pos, size)
         self.attributes = attributes
+
+        self.watering_timer = Timer(attributes['watering_timer'] * random.uniform(*Settings.crop_watering_range),)
         self.growth_timer = Timer(attributes['growth_timer'] * random.uniform(*Settings.crop_growth_range),)
         self.growth_state = 0
 
+        self.is_hovered = False
+        self.is_pressed = False
+        self.is_watered = False
+
     def get_growth_state(self, id):
-        return self.attributes['tiles'][id - 1]
+        for tile in self.attributes['tiles']:
+            if tile['growth_state'] == id:
+                return tile
+        return False
 
     def update(self):
+        self.cursor_logic()
         if self.growth_timer.is_next_stop_reached():
+            self.grow()
+            
+        if self.watering_timer.is_next_stop_reached():
+            self.is_watered = False
+
+    def cursor_logic(self):
+        if self.check_cursor_position():
             if self.growth_state != self.attributes['max_growth_state']:
-                self.growth_state += 1
-                state = self.get_growth_state(self.growth_state)
+                cursor = self.attributes['hover_cursor']
+            else:
+                cursor = self.attributes['max_hover_cursor']
+
+            self.game.cursor.update_sprite(Settings.cursors[cursor])
+            self.is_hovered = True
+
+            if self.game.cursor.get_pressed((1,0,0)) and self.is_pressed == False:
+                if self.growth_state != self.attributes['max_growth_state']:
+                    if self.is_watered == False:
+                        self.is_watered = True
+                        self.grow()
+                else:
+                    self.harvest()
+                self.is_pressed = True
+        else:
+            if self.is_hovered:
+                self.game.cursor.update_sprite(Settings.cursors['default'])
+                self.is_hovered = False
+                self.is_pressed = False
+
+    def check_cursor_position(self):
+        if pygame.Rect.collidepoint(self.rect, *self.game.cursor.pos):
+            return True
+
+    def grow(self):
+        if self.growth_state != self.attributes['max_growth_state']:
+            self.growth_state += 1
+            state = self.get_growth_state(self.growth_state)
+            if state != False:
                 self.update_sprite(state['image'], self.pos, self.size)
+
+    def harvest(self):
+        state = self.get_growth_state(0)
+        self.update_sprite(state['image'], self.pos, self.size)
+        self.growth_state = 0
+
+        self.game.inventory.add_item(self.attributes['item_id'], 1)
+        self.game.inventory.report()
 
     def update_sprite(self, filename, pos, size):
         self.image = pygame.image.load(os.path.join(Settings.path_crops, filename)).convert_alpha()
@@ -54,7 +108,8 @@ class CropTile(FieldTile):
         self.set_pos(*pos)
 
 class FieldManager():
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
         self.crop_types = self.load_crop_types()
         self.fields = self.load_fields()
 
@@ -94,8 +149,8 @@ class FieldManager():
                 for row in data:
                     for col in row:
                         if col != "-1":
-                            field_tiles.add(FieldTile("farm_soil.png", (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
-                            field_soil_tiles.add(CropTile(self.crop_types['1'], (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
+                            field_tiles.add(FieldTile(self.game, "farm_soil.png", (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
+                            field_soil_tiles.add(CropTile(self.game, self.crop_types[str(random.randint(1,7))], (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
                         x += 1
 
                     y += 1
