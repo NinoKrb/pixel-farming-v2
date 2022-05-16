@@ -98,6 +98,9 @@ class CropTile(FieldTile):
         self.update_sprite(state['image'], self.pos, self.size)
         self.growth_state = 0
 
+        self.game.inventory.add_item(self.attributes['item_id'], 1)
+        self.game.inventory.report()
+
     def update_sprite(self, filename, pos, size):
         self.image = pygame.image.load(os.path.join(Settings.path_crops, filename)).convert_alpha()
         self.image = pygame.transform.scale(self.image, size)
