@@ -150,7 +150,7 @@ class FieldManager():
                     for col in row:
                         if col != "-1":
                             field_tiles.add(FieldTile(self.game, "farm_soil.png", (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
-                            field_soil_tiles.add(CropTile(self.game, self.crop_types['1'], (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
+                            field_soil_tiles.add(CropTile(self.game, self.crop_types[str(random.randint(1,7))], (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
                         x += 1
 
                     y += 1
