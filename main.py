@@ -5,7 +5,7 @@ from classes.timer import Timer
 from classes.cursor import Cursor
 from classes.fields import FieldManager
 from classes.item import ItemManager
-from classes.inventory import Inventory
+from classes.inventory import InventoryHandler, InventoryManager
 
 class ImageLayer(pygame.sprite.Sprite):
     def __init__(self, filename):
@@ -27,6 +27,8 @@ class Game():
         pygame.init()   
         pygame.display.set_caption(Settings.title)
 
+        self.inventory_font = pygame.font.SysFont("arial", 14)
+
         self.screen = pygame.display.set_mode((Settings.window_width, Settings.window_height))
         self.clock = pygame.time.Clock()
         self.background = ImageLayer("floor.png")
@@ -44,8 +46,13 @@ class Game():
 
         self.item_manager = ItemManager()
 
-        self.inventory = Inventory()
+        self.inventory = InventoryHandler()
         self.inventory.initialize_itemstacks(self.item_manager.items)
+
+        self.inventory_manager = InventoryManager(self)
+        self.inventory_manager.init_itemstacks(self.inventory.items)
+
+        self.inventory_state = False
 
         self.running = True 
 
@@ -65,6 +72,8 @@ class Game():
         self.background.draw(self.screen)
         self.collision_layer.draw(self.screen)
         self.field_manager.draw_fields(self.screen)
+        if self.inventory_state:
+            self.inventory_manager.draw(self.screen)
         self.cursor.draw(self.screen)
         # self.character.draw(self.screen)
         pygame.display.flip()
@@ -74,6 +83,9 @@ class Game():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
+
+                if event.key == pygame.K_e:
+                    self.inventory_state = not self.inventory_state
 
             if event.type == pygame.QUIT:
                 self.running = False
