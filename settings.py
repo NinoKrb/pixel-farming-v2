@@ -1,4 +1,4 @@
-import os, csv
+import os, csv, pygame
 
 class Settings(object):
     title = "Pixel Farming V2"
@@ -45,9 +45,10 @@ class Settings(object):
     item_type_filename = "items.json"
 
     inventory_size = (450,450)
-    inventory_slot_size = (39,39)
-    inventory_item_size = (30,30)
-    inventory_item_slot_offset = (9,9)
-    inventory_offset = 16
+    inventory_slot_size = (45,45)
+    inventory_item_size = (29,29)
+    inventory_item_slot_offset = (14,14)
+    inventory_offset = 12
     inventory_columns = 7
     inventory_rows = 7
+
