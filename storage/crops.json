@@ -42,6 +42,204 @@
                     "image": "potato_04.png"
                 }
             ]
+        },
+        {
+            "id": 2,
+            "item_id": 1,
+            "title": "Rote Beete",
+            "fallback_image": "beetroot_01.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 5,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "tiles": [
+                {
+                    "growth_state": 0,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "beetroot_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "beetroot_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "beetroot_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "beetroot_04.png"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "item_id": 2,
+            "title": "Kraut",
+            "fallback_image": "cabbage_01.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 5,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "tiles": [
+                {
+                    "growth_state": 0,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "cabbage_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "cabbage_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "cabbage_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "cabbage_04.png"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "item_id": 3,
+            "title": "Blumenkohl",
+            "fallback_image": "cauliflower_01.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 5,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "tiles": [
+                {
+                    "growth_state": 0,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "cauliflower_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "cauliflower_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "cauliflower_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "cauliflower_04.png"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "item_id": 4,
+            "title": "Grünkohl",
+            "fallback_image": "kale_01.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 5,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "tiles": [
+                {
+                    "growth_state": 0,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "kale_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "kale_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "kale_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "kale_04.png"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "item_id": 5,
+            "title": "Pastinake",
+            "fallback_image": "parsnip_01.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 5,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "tiles": [
+                {
+                    "growth_state": 0,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "parsnip_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "parsnip_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "parsnip_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "parsnip_04.png"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "item_id": 6,
+            "title": "Kürbis",
+            "fallback_image": "pumpkin_01.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 5,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "tiles": [
+                {
+                    "growth_state": 0,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "pumpkin_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "pumpkin_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "pumpkin_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "pumpkin_04.png"
+                }
+            ]
         }
     ]
 }
