@@ -75,11 +75,11 @@ class InventorySlot():
         self.slot_sprite = InventorySprite('slot.png', self.pos, self.slot_size, Settings.path_image)
         if self.itemstack != None:
             self.item_sprite = InventorySprite(self.itemstack.item.image, (self.pos[0] + Settings.inventory_item_slot_offset[0] // 2, self.pos[1] + Settings.inventory_item_slot_offset[1] // 2), self.item_size, Settings.path_crops)
-            self.item_label = self.game.inventory_font.render(f"{self.itemstack.amount}", True, (255, 255, 255))
 
     def draw(self, screen):
         self.slot_sprite.draw(screen)
         if self.itemstack != None:
+            self.item_label = self.game.inventory_font.render(f"{self.itemstack.amount}", True, (255, 255, 255))
             self.item_sprite.draw(screen)
             screen.blit(self.item_label, (self.pos[0] + self.slot_size[0] - self.item_label.get_width(), self.pos[1] + self.slot_size[1] - self.item_label.get_height()))
 
