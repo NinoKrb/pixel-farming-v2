@@ -12,6 +12,7 @@
         },
         {
             "id": 1,
+            "item_id": 7,
             "title": "Kartoffel",
             "fallback_image": "potato_01.png",
             "growth_timer": 5000,
