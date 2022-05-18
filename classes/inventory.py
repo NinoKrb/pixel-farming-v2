@@ -81,7 +81,7 @@ class InventorySlot():
         if self.itemstack != None:
             self.item_label = self.game.inventory_font.render(f"{self.itemstack.amount}", True, (255, 255, 255))
             self.item_sprite.draw(screen)
-            screen.blit(self.item_label, (self.pos[0] + self.slot_size[0] - self.item_label.get_width(), self.pos[1] + self.slot_size[1] - self.item_label.get_height()))
+            screen.blit(self.item_label, (self.pos[0] + self.slot_size[0] - self.item_label.get_width() - 3, self.pos[1] + self.slot_size[1] - self.item_label.get_height() - 5))
 
 class InventoryManager():
     def __init__(self, game):
