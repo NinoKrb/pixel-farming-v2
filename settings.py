@@ -14,6 +14,7 @@ class Settings(object):
     path_file = os.path.dirname(os.path.abspath(__file__))
     path_assets = os.path.join(path_file, "assets")
     path_image = os.path.join(path_assets, "images")
+    path_font = os.path.join(path_assets, "fonts")
     path_crops = os.path.join(path_image, "crops")
     path_cursors = os.path.join(path_image, "cursors")
 
