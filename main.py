@@ -8,18 +8,19 @@ from classes.item import ItemManager
 from classes.inventory import InventoryHandler, InventoryManager
 
 class ImageLayer(pygame.sprite.Sprite):
-    def __init__(self, filename):
+    def __init__(self, game, filename):
         super().__init__()
+        self.game = game
         self.image = pygame.image.load(os.path.join(Settings.path_image, filename)).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (Settings.window_width, Settings.window_height))
+        self.image = pygame.transform.scale(self.image, (int(Settings.window_width * self.game.zoom), int(Settings.window_height * self.game.zoom)))
         self.rect = self.image.get_rect()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
 class CollisionLayer(ImageLayer):
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, game, filename):
+        super().__init__(game, filename)
 
 class Game():
     def __init__(self):
@@ -27,12 +28,13 @@ class Game():
         pygame.init()   
         pygame.display.set_caption(Settings.title)
 
-        self.inventory_font = pygame.font.SysFont("arial", 14)
+        self.zoom = 1.5
+        self.inventory_font = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 14)
 
         self.screen = pygame.display.set_mode((Settings.window_width, Settings.window_height))
         self.clock = pygame.time.Clock()
-        self.background = ImageLayer("floor.png")
-        self.collision_layer = CollisionLayer("collision.png")
+        self.background = ImageLayer(self, "floor.png")
+        self.collision_layer = CollisionLayer(self, "collision.png")
 
         self.cursor = Cursor(Settings.cursors['default'])
 
