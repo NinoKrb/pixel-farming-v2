@@ -19,13 +19,13 @@ class FieldTile(pygame.sprite.Sprite):
 
     def update_sprite(self, filename, pos, size):
         self.image = pygame.image.load(os.path.join(Settings.path_image, filename)).convert_alpha()
-        self.image = pygame.transform.scale(self.image, size)
+        self.image = pygame.transform.scale(self.image, (int(size[0] * self.game.zoom), int(size[1] * self.game.zoom)))
         self.rect = self.image.get_rect()
         self.set_pos(*pos)
 
     def set_pos(self, x, y):
-        self.rect.left = x
-        self.rect.top = y
+        self.rect.left = x * self.game.zoom
+        self.rect.top = y * self.game.zoom
         self.pos = (x,y)
 
     def draw(self, screen):
@@ -103,7 +103,7 @@ class CropTile(FieldTile):
 
     def update_sprite(self, filename, pos, size):
         self.image = pygame.image.load(os.path.join(Settings.path_crops, filename)).convert_alpha()
-        self.image = pygame.transform.scale(self.image, size)
+        self.image = pygame.transform.scale(self.image, (int(size[0] * self.game.zoom), int(size[1] * self.game.zoom)))
         self.rect = self.image.get_rect()
         self.set_pos(*pos)
 
