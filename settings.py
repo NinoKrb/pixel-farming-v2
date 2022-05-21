@@ -1,4 +1,5 @@
-import os, csv, pygame
+import os
+
 
 class Settings(object):
     title = "Pixel Farming V2"
@@ -8,7 +9,12 @@ class Settings(object):
 
     tile_width = 16
     tile_height = 16
-    
+
+    zoom_default = 1
+    zoom_max = 2.5
+    zoom_min = 1
+    zoom_step = 0.1
+
     fps = 60
 
     path_file = os.path.dirname(os.path.abspath(__file__))
@@ -23,12 +29,12 @@ class Settings(object):
 
     crop_type_filename = "crops.json"
     crop_growth_range = (1.5, 2.5)
-    crop_watering_range =  (1, 1)
+    crop_watering_range = (1, 1)
 
-    player_size = (80,80)
-    player_spawn_position = (0,0)
+    player_size = (80, 80)
+    player_spawn_position = (0, 0)
 
-    cursor_size = (24,24)
+    cursor_size = (24, 24)
     cursors = {
         "default": "cursor_01.png",
         "hammer": "hammer.png",
@@ -45,11 +51,10 @@ class Settings(object):
 
     item_type_filename = "items.json"
 
-    inventory_size = (450,450)
-    inventory_slot_size = (45,45)
-    inventory_item_size = (29,29)
-    inventory_item_slot_offset = (14,14)
+    inventory_size = (450, 450)
+    inventory_slot_size = (45, 45)
+    inventory_item_size = (29, 29)
+    inventory_item_slot_offset = (14, 14)
     inventory_offset = 12
     inventory_columns = 7
     inventory_rows = 7
-
