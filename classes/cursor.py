@@ -1,10 +1,13 @@
 import pygame, os
 from settings import Settings
 
+
 class Cursor():
     def __init__(self, filename):
+        self.rect = None
+        self.image = None
         self.action = "hand"
-        self.pos = (0,0)
+        self.pos = (0, 0)
         pygame.mouse.set_visible(False)
         self.update_sprite(filename)
 
