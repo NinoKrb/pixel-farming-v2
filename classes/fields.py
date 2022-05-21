@@ -2,42 +2,52 @@ import pygame, os, json, csv, random
 from settings import Settings
 from classes.timer import Timer
 
+
 class Field():
     def __init__(self, name, soil_tiles, crop_tiles):
         self.name = name
         self.soil_tiles = soil_tiles
         self.crop_tiles = crop_tiles
 
+
 class FieldTile(pygame.sprite.Sprite):
-    def __init__(self, game, filename, pos, size):
+    def __init__(self, game, filename, pos, size, path=Settings.path_image):
         super().__init__()
+        self.original_image = None
         self.game = game
         self.filename = filename
         self.pos = pos
         self.size = size
-        self.update_sprite(self.filename, self.pos, self.size)
+        self.path = path
+        self.update_sprite(self.filename)
 
-    def update_sprite(self, filename, pos, size):
-        self.image = pygame.image.load(os.path.join(Settings.path_image, filename)).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (int(size[0] * self.game.zoom), int(size[1] * self.game.zoom)))
+    def update_zoom(self, image):
+        self.image = pygame.transform.scale(image,
+                                            (int(self.size[0] * self.game.zoom), int(self.size[1] * self.game.zoom)))
         self.rect = self.image.get_rect()
-        self.set_pos(*pos)
+        self.set_pos(*self.pos)
+
+    def update_sprite(self, filename):
+        self.image = pygame.image.load(os.path.join(self.path, filename)).convert_alpha()
+        self.original_image = self.image.copy()
+        self.update_zoom(self.image)
 
     def set_pos(self, x, y):
         self.rect.left = x * self.game.zoom
         self.rect.top = y * self.game.zoom
-        self.pos = (x,y)
+        self.pos = (x, y)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+
 class CropTile(FieldTile):
     def __init__(self, game, attributes, pos, size):
-        super().__init__(game, attributes['fallback_image'], pos, size)
+        super().__init__(game, attributes['fallback_image'], pos, size, Settings.path_crops)
         self.attributes = attributes
 
-        self.watering_timer = Timer(attributes['watering_timer'] * random.uniform(*Settings.crop_watering_range),)
-        self.growth_timer = Timer(attributes['growth_timer'] * random.uniform(*Settings.crop_growth_range),)
+        self.watering_timer = Timer(attributes['watering_timer'] * random.uniform(*Settings.crop_watering_range), )
+        self.growth_timer = Timer(attributes['growth_timer'] * random.uniform(*Settings.crop_growth_range), )
         self.growth_state = 0
 
         self.is_hovered = False
@@ -54,7 +64,7 @@ class CropTile(FieldTile):
         self.cursor_logic()
         if self.growth_timer.is_next_stop_reached():
             self.grow()
-            
+
         if self.watering_timer.is_next_stop_reached():
             self.is_watered = False
 
@@ -68,9 +78,9 @@ class CropTile(FieldTile):
             self.game.cursor.update_sprite(Settings.cursors[cursor])
             self.is_hovered = True
 
-            if self.game.cursor.get_pressed((1,0,0)) and self.is_pressed == False:
+            if self.game.cursor.get_pressed((1, 0, 0)) and self.is_pressed == False:
                 if self.growth_state != self.attributes['max_growth_state']:
-                    if self.is_watered == False:
+                    if not self.is_watered:
                         self.is_watered = True
                         self.grow()
                 else:
@@ -90,22 +100,17 @@ class CropTile(FieldTile):
         if self.growth_state != self.attributes['max_growth_state']:
             self.growth_state += 1
             state = self.get_growth_state(self.growth_state)
-            if state != False:
-                self.update_sprite(state['image'], self.pos, self.size)
+            if state:
+                self.update_sprite(state['image'])
 
     def harvest(self):
         state = self.get_growth_state(0)
-        self.update_sprite(state['image'], self.pos, self.size)
+        self.update_sprite(state['image'])
         self.growth_state = 0
 
         self.game.inventory.add_item(self.attributes['item_id'], 1)
         self.game.inventory.report()
 
-    def update_sprite(self, filename, pos, size):
-        self.image = pygame.image.load(os.path.join(Settings.path_crops, filename)).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (int(size[0] * self.game.zoom), int(size[1] * self.game.zoom)))
-        self.rect = self.image.get_rect()
-        self.set_pos(*pos)
 
 class FieldManager():
     def __init__(self, game):
@@ -117,7 +122,7 @@ class FieldManager():
         for field in self.fields:
             field.crop_tiles.update()
 
-    def draw_fields(self,screen):
+    def draw_fields(self, screen):
         for field in self.fields:
             field.soil_tiles.draw(screen)
             field.crop_tiles.draw(screen)
@@ -134,6 +139,14 @@ class FieldManager():
 
         return crop_types
 
+    def update_zoom(self):
+        for field in self.fields:
+            for tile in field.crop_tiles:
+                tile.update_zoom(tile.original_image)
+
+            for tile in field.soil_tiles:
+                tile.update_zoom(tile.original_image)
+
     def load_fields(self):
         fields = []
         field_files = os.listdir(Settings.path_fields)
@@ -149,10 +162,23 @@ class FieldManager():
                 for row in data:
                     for col in row:
                         if col != "-1":
-                            field_tiles.add(FieldTile(self.game, "farm_soil.png", (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
-                            field_soil_tiles.add(CropTile(self.game, self.crop_types[str(random.randint(1,7))], (x * Settings.tile_width, y * Settings.tile_height), (Settings.tile_width, Settings.tile_height)))
+                            field_tiles.add(
+                                FieldTile(
+                                    self.game,
+                                    "farm_soil.png",
+                                    (x * Settings.tile_width, y * Settings.tile_height),
+                                    (Settings.tile_width, Settings.tile_height)
+                                )
+                            )
+                            field_soil_tiles.add(
+                                CropTile(
+                                    self.game,
+                                    self.crop_types["3"],
+                                    (x * Settings.tile_width, y * Settings.tile_height),
+                                    (Settings.tile_width, Settings.tile_height)
+                                )
+                            )
                         x += 1
-
                     y += 1
                     x = 0
 
