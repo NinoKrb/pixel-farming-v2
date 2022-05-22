@@ -1,7 +1,5 @@
 import pygame, os
 from settings import Settings
-from classes.player import Character
-from classes.timer import Timer
 from classes.cursor import Cursor
 from classes.fields import FieldManager
 from classes.item import ItemManager
@@ -46,6 +44,7 @@ class Game():
 
         self.screen = pygame.display.set_mode((Settings.window_width, Settings.window_height))
         self.clock = pygame.time.Clock()
+
         self.background = ImageLayer(self, "floor.png")
         self.collision_layer = CollisionLayer(self, "collision.png")
 

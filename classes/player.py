@@ -1,7 +1,6 @@
 from classes.action import Action
 from classes.animation_set import AnimationSet
 from classes.animation import Animation
-from classes.timer import Timer
 from settings import Settings
 import pygame, os
 
