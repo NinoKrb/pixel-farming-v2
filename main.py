@@ -68,7 +68,6 @@ class Game():
         self.inventory_manager.init_itemstacks(self.inventory.items)
 
         self.inventory_state = False
-
         self.running = True
 
     def run(self):
