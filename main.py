@@ -124,4 +124,3 @@ class Game():
                 if Settings.zoom_max >= new_zoom >= Settings.zoom_min:
                     self.zoom = new_zoom
                     self.update_zoom()
-                print(self.zoom)
