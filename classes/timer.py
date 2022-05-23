@@ -1,5 +1,6 @@
 import pygame
 
+
 class Timer(object):
     def __init__(self, duration, with_start=True):
         self.duration = duration

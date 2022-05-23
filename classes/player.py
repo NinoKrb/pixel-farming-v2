@@ -1,9 +1,9 @@
 from classes.action import Action
 from classes.animation_set import AnimationSet
 from classes.animation import Animation
-from classes.timer import Timer
 from settings import Settings
 import pygame, os
+
 
 class Character(pygame.sprite.Sprite):
     def __init__(self, options, size, pos):
@@ -15,30 +15,30 @@ class Character(pygame.sprite.Sprite):
 
         animation_path = os.path.join(Settings.path_image, 'sprites', 'character')
         animations = [
-            Animation('WALKING', animation_path, self.options, (64,64), 16, 50),
-            Animation('DIG', animation_path, self.options, (64,64), 16, 50),
-            Animation('CAUGHT', animation_path, self.options, (64,64), 16, 50),
-            Animation('REELING', animation_path, self.options, (64,64), 16, 50),
-            Animation('WAITING', animation_path, self.options, (64,64), 16, 50),
-            Animation('CASTING', animation_path, self.options, (64,64), 16, 50),
-            Animation('HAMMERING', animation_path, self.options, (64,64), 16, 50),
-            Animation('SWIMMING', animation_path, self.options, (64,64), 16, 50),
-            Animation('MINING', animation_path, self.options, (64,64), 16, 50),
-            Animation('AXE', animation_path, self.options, (64,64), 16, 50),
-            Animation('ROLL', animation_path, self.options, (64,64), 16, 50),
-            Animation('JUMP', animation_path, self.options, (64,64), 16, 50),
-            Animation('RUN', animation_path, self.options, (64,64), 16, 50),
-            Animation('DOING', animation_path, self.options, (64,64), 16, 50),
-            Animation('DEATH', animation_path, self.options, (64,64), 16, 50),
-            Animation('HURT', animation_path, self.options, (64,64), 16, 50),
-            Animation('WATERING', animation_path, self.options, (64,64), 16, 50),
-            Animation('CARRY', animation_path, self.options, (64,64), 16, 50),
-            Animation('IDLE', animation_path, self.options, (64,64), 16, 50),
-            Animation('ATTACK', animation_path, self.options, (64,64), 16, 50)
+            Animation('WALKING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('DIG', animation_path, self.options, (64, 64), 16, 50),
+            Animation('CAUGHT', animation_path, self.options, (64, 64), 16, 50),
+            Animation('REELING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('WAITING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('CASTING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('HAMMERING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('SWIMMING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('MINING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('AXE', animation_path, self.options, (64, 64), 16, 50),
+            Animation('ROLL', animation_path, self.options, (64, 64), 16, 50),
+            Animation('JUMP', animation_path, self.options, (64, 64), 16, 50),
+            Animation('RUN', animation_path, self.options, (64, 64), 16, 50),
+            Animation('DOING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('DEATH', animation_path, self.options, (64, 64), 16, 50),
+            Animation('HURT', animation_path, self.options, (64, 64), 16, 50),
+            Animation('WATERING', animation_path, self.options, (64, 64), 16, 50),
+            Animation('CARRY', animation_path, self.options, (64, 64), 16, 50),
+            Animation('IDLE', animation_path, self.options, (64, 64), 16, 50),
+            Animation('ATTACK', animation_path, self.options, (64, 64), 16, 50)
         ]
 
         self.animation_set = AnimationSet('character', animations)
-        self.action_handler = Action({ 'name': 'IDLE', 'loop': True })
+        self.action_handler = Action({'name': 'IDLE', 'loop': True})
 
         self.update_sprite(self.surface)
         self.set_position(*self.pos)

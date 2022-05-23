@@ -1,11 +1,13 @@
 import os, json
 from settings import Settings
 
+
 class Item():
     def __init__(self, id, name, filename):
         self.id = id
         self.name = name
         self.image = filename
+
 
 class ItemManager():
     def __init__(self):

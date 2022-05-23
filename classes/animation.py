@@ -1,6 +1,7 @@
 import os, glob, pygame
 from classes.timer import Timer
 
+
 class Animation():
     def __init__(self, name, path, options, size, margin=0, delay=200):
         super().__init__()
@@ -43,9 +44,9 @@ class Animation():
         merged_frames = []
         for index in range(len(frames_base)):
             merged_frame = pygame.Surface(size, pygame.SRCALPHA)
-            merged_frame.blit(frames_base[index], (0,0))
-            merged_frame.blit(frames_hair[index], (0,0))
-            merged_frame.blit(frames_tool[index], (0,0))
+            merged_frame.blit(frames_base[index], (0, 0))
+            merged_frame.blit(frames_hair[index], (0, 0))
+            merged_frame.blit(frames_tool[index], (0, 0))
             merged_frames.append(merged_frame)
         return merged_frames
 
