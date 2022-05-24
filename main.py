@@ -4,6 +4,7 @@ from classes.cursor import Cursor
 from classes.fields import FieldManager
 from classes.item import ItemManager
 from classes.inventory import InventoryHandler, InventoryManager
+from classes.shop import Shop, ShopItem
 
 
 class ImageLayer(pygame.sprite.Sprite):
@@ -66,6 +67,13 @@ class Game():
         self.inventory_manager = InventoryManager(self)
         self.inventory_manager.init_itemstacks(self.inventory.items)
 
+        items = [
+            ShopItem("Kraut Samen", self.item_manager.get_item_by_id(13), 25, 100, "buy"),
+            ShopItem("Blumenkohl Samen", self.item_manager.get_item_by_id(14), 25, 100, "buy"),
+            ShopItem("Grünkohl Samen", self.item_manager.get_item_by_id(15), 25, 100, "buy")
+        ]
+        self.shop = Shop("Hauptshop", items)
+
         self.inventory_state = False
         self.running = True
 
@@ -87,6 +95,7 @@ class Game():
         self.field_manager.draw_fields(self.screen)
         if self.inventory_state:
             self.inventory_manager.draw(self.screen)
+        self.shop.draw(self.screen)
         self.cursor.draw(self.screen)
         # self.character.draw(self.screen)
         pygame.display.flip()
