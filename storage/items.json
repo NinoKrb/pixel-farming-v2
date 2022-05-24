@@ -54,6 +54,61 @@
             "id": 11,
             "name" : "Weizen",
             "image": "wheat_05.png"
+        },
+        {
+            "id": 12,
+            "name" : "Rote Beete Samen",
+            "image": "beetroot_01.png"
+        },
+        {
+            "id": 13,
+            "name" : "Kraut Samen",
+            "image": "cabbage_01.png"
+        },
+        {
+            "id": 14,
+            "name" : "Blumenkohl Samen",
+            "image": "cauliflower_01.png"
+        },
+        {
+            "id": 15,
+            "name" : "Grünkohl Samen",
+            "image": "kale_01.png"
+        },
+        {
+            "id": 16,
+            "name" : "Pastinake Samen",
+            "image": "parsnip_01.png"
+        },
+        {
+            "id": 17,
+            "name" : "Kürbis Samen",
+            "image": "pumpkin_01.png"
+        },
+        {
+            "id": 18,
+            "name" : "Kartoffel Samen",
+            "image": "potato_01.png"
+        },
+        {
+            "id": 19,
+            "name" : "Radischen Samen",
+            "image": "radish_01.png"
+        },
+        {
+            "id": 20,
+            "name" : "Sonnenblume Samen",
+            "image": "sunflower_01.png"
+        },
+        {
+            "id": 21,
+            "name" : "Karotte Samen",
+            "image": "carrot_01.png"
+        },
+        {
+            "id": 22,
+            "name" : "Weizen Samen",
+            "image": "wheat_01.png"
         }
     ]
 }
