@@ -3,9 +3,11 @@ from settings import Settings
 
 
 class ShopItem():
-    def __init__(self, name, item, amount, price, status):
+    def __init__(self, game, size, name, item, amount, price, status):
         self.rect = None
         self.image = None
+        self.game = game
+        self.size = size
         self.name = name
         self.item = item
         self.amount = amount
@@ -17,8 +19,8 @@ class ShopItem():
     def update_sprite(self, filename):
         self.image = pygame.image.load(os.path.join(Settings.path_crops, filename)).convert_alpha()
         self.image = pygame.transform.scale(self.image, (
-            int(Settings.window_width * self.game.zoom),
-            int(Settings.window_height * self.game.zoom)
+            int(self.size[0] * self.game.zoom),
+            int(self.size[1] * self.game.zoom)
         ))
         self.rect = self.image.get_rect()
 

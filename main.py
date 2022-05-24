@@ -68,9 +68,9 @@ class Game():
         self.inventory_manager.init_itemstacks(self.inventory.items)
 
         items = [
-            ShopItem("Kraut Samen", self.item_manager.get_item_by_id(13), 25, 100, "buy"),
-            ShopItem("Blumenkohl Samen", self.item_manager.get_item_by_id(14), 25, 100, "buy"),
-            ShopItem("Grünkohl Samen", self.item_manager.get_item_by_id(15), 25, 100, "buy")
+            ShopItem(self, (16, 16), "Kraut Samen", self.item_manager.get_item_by_id(13), 25, 100, "buy"),
+            ShopItem(self, (16, 16), "Blumenkohl Samen", self.item_manager.get_item_by_id(14), 25, 100, "buy"),
+            ShopItem(self, (16, 16), "Grünkohl Samen", self.item_manager.get_item_by_id(15), 25, 100, "buy")
         ]
         self.shop = Shop("Hauptshop", items)
 
