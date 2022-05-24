@@ -12,8 +12,10 @@ class ShopItem():
         self.price = price
         self.status = status
 
+        self.update_sprite(item.image)
+
     def update_sprite(self, filename):
-        self.image = pygame.image.load(os.path.join(Settings.path_image, filename)).convert_alpha()
+        self.image = pygame.image.load(os.path.join(Settings.path_crops, filename)).convert_alpha()
         self.image = pygame.transform.scale(self.image, (
             int(Settings.window_width * self.game.zoom),
             int(Settings.window_height * self.game.zoom)
@@ -35,5 +37,6 @@ class Shop():
     def update(self):
         pass
 
-    def draw(self):
-        pass
+    def draw(self, screen):
+        for item in self.items:
+            item.draw(screen)
