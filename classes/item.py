@@ -27,10 +27,10 @@ class ItemManager():
 
     def get_item_by_id(self, id):
         for item in self.items:
-            if item['id'] == id:
+            if item.id == id:
                 return item
 
     def get_item_by_name(self, name):
         for item in self.items:
-            if item['name'] == name:
+            if item.name == name:
                 return item
