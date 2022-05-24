@@ -31,10 +31,12 @@ class Settings(object):
     crop_growth_range = (1.5, 2.5)
     crop_watering_range = (1, 1)
 
+    replant_time = 10000
+
     player_size = (80, 80)
     player_spawn_position = (0, 0)
 
-    cursor_size = (24, 24)
+    cursor_size = (19, 19)
     cursors = {
         "default": "cursor_01.png",
         "hammer": "hammer.png",
