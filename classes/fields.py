@@ -22,8 +22,7 @@ class FieldTile(pygame.sprite.Sprite):
         self.update_sprite(self.filename)
 
     def update_zoom(self, image):
-        self.image = pygame.transform.scale(image,
-                                            (int(self.size[0] * self.game.zoom), int(self.size[1] * self.game.zoom)))
+        self.image = pygame.transform.scale(image, (int(self.size[0] * self.game.zoom), int(self.size[1] * self.game.zoom)))
         self.rect = self.image.get_rect()
         self.set_pos(*self.pos)
 
@@ -44,18 +43,20 @@ class FieldTile(pygame.sprite.Sprite):
 class CropTile(FieldTile):
     def __init__(self, game, attributes, pos, size):
         super().__init__(game, attributes['fallback_image'], pos, size, Settings.path_crops)
-        self.attributes = attributes
+        self.crop_type = attributes
 
-        self.watering_timer = Timer(attributes['watering_timer'] * random.uniform(*Settings.crop_watering_range), )
-        self.growth_timer = Timer(attributes['growth_timer'] * random.uniform(*Settings.crop_growth_range), )
+        self.replant_timer = Timer(Settings.replant_time)
+        self.watering_timer = Timer(self.crop_type['watering_timer'] * random.uniform(*Settings.crop_watering_range))
+        self.growth_timer = Timer(self.crop_type['growth_timer'] * random.uniform(*Settings.crop_growth_range))
         self.growth_state = 0
 
         self.is_hovered = False
         self.is_pressed = False
         self.is_watered = False
+        self.can_replant = False
 
     def get_growth_state(self, id):
-        for tile in self.attributes['tiles']:
+        for tile in self.crop_type['tiles']:
             if tile['growth_state'] == id:
                 return tile
         return False
@@ -68,21 +69,30 @@ class CropTile(FieldTile):
         if self.watering_timer.is_next_stop_reached():
             self.is_watered = False
 
+        if self.replant_timer.is_next_stop_reached():
+            self.can_replant = True
+
     def cursor_logic(self):
         if self.check_cursor_position():
-            if self.growth_state != self.attributes['max_growth_state']:
-                cursor = self.attributes['hover_cursor']
+            if self.growth_state == -1 and self.can_replant:
+                cursor = self.crop_type['seed_cursor']
+            elif self.growth_state != self.crop_type['max_growth_state']:
+                cursor = self.crop_type['hover_cursor']
             else:
-                cursor = self.attributes['max_hover_cursor']
+                cursor = self.crop_type['max_hover_cursor']
 
             self.game.cursor.update_sprite(Settings.cursors[cursor])
             self.is_hovered = True
 
             if self.game.cursor.get_pressed((1, 0, 0)) and self.is_pressed == False:
-                if self.growth_state != self.attributes['max_growth_state']:
+                if self.growth_state == -1:
+                    if self.can_replant:
+                        self.seed()
+                elif self.growth_state != self.crop_type['max_growth_state']:
                     if not self.is_watered:
                         self.is_watered = True
                         self.grow()
+                        self.can_replant = False
                 else:
                     self.harvest()
                 self.is_pressed = True
@@ -97,19 +107,31 @@ class CropTile(FieldTile):
             return True
 
     def grow(self):
-        if self.growth_state != self.attributes['max_growth_state']:
-            self.growth_state += 1
-            state = self.get_growth_state(self.growth_state)
-            if state:
-                self.update_sprite(state['image'])
+        if self.growth_state != -1:
+            if self.growth_state != self.crop_type['max_growth_state']:
+                self.growth_state += 1
+                state = self.get_growth_state(self.growth_state)
+                if state:
+                    self.update_sprite(state['image'])
 
     def harvest(self):
         state = self.get_growth_state(0)
         self.update_sprite(state['image'])
-        self.growth_state = 0
+        self.growth_state = -1
 
-        self.game.inventory.add_item(self.attributes['item_id'], 1)
-        self.game.inventory.report()
+        self.game.inventory.add_item(self.crop_type['item_id'], 1)
+        self.game.inventory.add_item(self.crop_type['seed_item_id'], 1)
+        #self.game.inventory.report()
+
+    def seed(self):
+        if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
+            state = self.get_growth_state(1)
+            self.update_sprite(state['image'])
+            self.growth_state = 0
+
+            print("Plant new Crop")
+        else:
+            print("Not enough Crops")
 
 
 class FieldManager():
