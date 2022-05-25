@@ -88,11 +88,12 @@ class CropTile(FieldTile):
                 if self.growth_state == -1:
                     if self.can_replant:
                         self.seed()
+                    else:
+                        print("Try to plant new Crop")
                 elif self.growth_state != self.crop_type['max_growth_state']:
                     if not self.is_watered:
                         self.is_watered = True
                         self.grow()
-                        self.can_replant = False
                 else:
                     self.harvest()
                 self.is_pressed = True
@@ -113,6 +114,7 @@ class CropTile(FieldTile):
                 state = self.get_growth_state(self.growth_state)
                 if state:
                     self.update_sprite(state['image'])
+                self.can_replant = False
 
     def harvest(self):
         state = self.get_growth_state(0)
@@ -121,6 +123,7 @@ class CropTile(FieldTile):
 
         self.game.inventory.add_item(self.crop_type['item_id'], 1)
         self.game.inventory.add_item(self.crop_type['seed_item_id'], 1)
+        self.can_replant = False
         #self.game.inventory.report()
 
     def seed(self):
