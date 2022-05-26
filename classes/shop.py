@@ -1,5 +1,7 @@
 from classes.menu import MenuManager, MenuSlot
 from settings import Settings
+import pygame
+
 
 class ShopItem():
     def __init__(self, item, price, action):
@@ -12,6 +14,31 @@ class ShopSlot(MenuSlot):
     def __init__(self, game, pos, itemstack=None, price=1):
         super().__init__(game, pos, itemstack)
         self.price = price
+
+    def check_cursor_interaction(self):
+        if self.check_cursor_position():
+            if self.game.cursor.get_pressed((1, 0, 0)):
+                if self.itemstack.action == "buy":
+                    if self.game.money >= self.itemstack.price:
+                        self.game.money -= self.itemstack.price
+                        self.game.inventory.add_item(self.itemstack.item.id, 1)
+                        print("Kaufe Item")
+                    else:
+                        print("Nicht genügend Geld")
+
+                elif self.itemstack.action == "sell":
+                    if self.game.inventory.get_amount_by_id(self.itemstack.item.id) >= 1:
+                        self.game.money += self.itemstack.price
+                        self.game.inventory.remove_item(self.itemstack.item.id, 1)
+                        print(f"Kontostand: {self.game.money}€")
+                    else:
+                        print("Nicht genügend Items")
+
+    def check_cursor_position(self):
+        if self.item_sprite:
+            if pygame.Rect.collidepoint(self.item_sprite.rect, *self.game.cursor.pos):
+                return True
+        return False
 
     def draw(self, screen):
         self.slot_sprite.draw(screen)
@@ -52,6 +79,10 @@ class ShopManager(MenuManager):
         for itemstack in itemstacks:
             self.slots[index].update_itemstack(itemstack)
             index += 1
+
+    def check_cursor(self):
+        for slot in self.slots:
+            slot.check_cursor_interaction()
 
     def draw(self, screen):
         self.background.draw(screen)
