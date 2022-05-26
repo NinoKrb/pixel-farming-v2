@@ -33,6 +33,10 @@ class InventoryHandler():
         else:
             return False
 
+    def get_amount_by_id(self, id):
+        itemstack = self.find_item(id)
+        return itemstack.amount
+
     def find_item(self, id):
         for item in self.items:
             if item.item.id == id:
