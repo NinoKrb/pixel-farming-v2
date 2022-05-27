@@ -5,6 +5,8 @@ from classes.fields import FieldManager
 from classes.item import ItemManager
 from classes.inventory import InventoryHandler, InventoryManager
 from classes.shop import ShopManager, ShopItem
+from classes.overlay import OverlayManager
+from classes.player import Character, WalkingNPC
 
 
 class ImageLayer(pygame.sprite.Sprite):
@@ -32,6 +34,7 @@ class ImageLayer(pygame.sprite.Sprite):
 class CollisionLayer(ImageLayer):
     def __init__(self, game, filename):
         super().__init__(game, filename)
+        self.mask = pygame.mask.from_surface(self.image)
 
 
 class Game():
@@ -55,11 +58,17 @@ class Game():
 
         self.field_manager = FieldManager(self)
 
-        # self.character = Character(options={ 
-        #    'base': "base", 
-        #    'haircut': "curlyhair", 
-        #    'tools': "tools"
-        # }, size=Settings.player_size, pos=(0,0))
+        self.character = WalkingNPC(game=self, options={
+            'base': "base",
+            'haircut': "curlyhair",
+            'tools': "tools"
+        }, size=Settings.player_size, pos=(Settings.window_width // 2, Settings.window_height // 2))
+
+        self.character2 = WalkingNPC(game=self, options={
+            'base': "base",
+            'haircut': "mophair",
+            'tools': "tools"
+        }, size=Settings.player_size, pos=(Settings.window_width // 2, Settings.window_height // 2))
 
         self.item_manager = ItemManager()
 
@@ -77,9 +86,39 @@ class Game():
         self.shop_manager = ShopManager(self, 'inv_container.png', 'slot.png')
         self.shop_manager.init_itemstacks(shop_items)
 
+        self.overlay_manager = OverlayManager(self)
+        self.actions = [
+            {
+                "name": "cursor",
+                "icon": "hand_open_02.png",
+                "path": Settings.path_icons
+            },
+            {
+                "name": "seed",
+                "icon": "plant_alt.png",
+                "path": Settings.path_icons
+            },
+            {
+                "name": "farm",
+                "icon": "shovel.png",
+                "path": Settings.path_icons
+            },
+            {
+                "name": "water",
+                "icon": "water.png",
+                "path": Settings.path_icons
+            }
+        ]
+        self.current_action = 0
+
         self.inventory_state = False
         self.shop_state = False
+        self.overlay_state = True
         self.running = True
+
+    @property
+    def action(self):
+        return self.actions[self.current_action]
 
     def run(self):
         while self.running:
@@ -91,7 +130,8 @@ class Game():
     def update(self):
         self.field_manager.update()
         self.cursor.update()
-        # self.character.update()
+        self.character.update()
+        self.character2.update()
 
     def draw(self):
         self.background.draw(self.screen)
@@ -101,8 +141,12 @@ class Game():
             self.inventory_manager.draw(self.screen)
         elif self.shop_state:
             self.shop_manager.draw(self.screen)
+        else:
+            if self.overlay_state:
+                self.overlay_manager.draw(self.screen)
         self.cursor.draw(self.screen)
-        # self.character.draw(self.screen)
+        self.character.draw(self.screen)
+        self.character2.draw(self.screen)
         pygame.display.flip()
 
     def update_zoom(self):
@@ -123,6 +167,20 @@ class Game():
                 if event.key == pygame.K_s:
                     if not self.inventory_state:
                         self.shop_state = not self.shop_state
+
+                if event.key == pygame.K_h:
+                    if not self.inventory_state or not self.shop_state:
+                        self.overlay_state = not self.overlay_state
+
+                if event.key == pygame.K_UP:
+                    if self.current_action != len(self.actions) - 1:
+                        self.current_action += 1
+                        self.overlay_manager.current_action_item.update_sprite(self.actions[self.current_action]['icon'])
+
+                if event.key == pygame.K_DOWN:
+                    if self.current_action != 0:
+                        self.current_action -= 1
+                        self.overlay_manager.current_action_item.update_sprite(self.actions[self.current_action]['icon'])
 
             if event.type == pygame.QUIT:
                 self.running = False
