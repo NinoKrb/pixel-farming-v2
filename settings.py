@@ -23,6 +23,7 @@ class Settings(object):
     path_font = os.path.join(path_assets, "fonts")
     path_crops = os.path.join(path_image, "crops")
     path_cursors = os.path.join(path_image, "cursors")
+    path_icons = os.path.join(path_image, "icons")
 
     path_storage = os.path.join(path_file, "storage")
     path_fields = os.path.join(path_storage, "fields")
@@ -60,3 +61,7 @@ class Settings(object):
     inventory_offset = 12
     inventory_columns = 7
     inventory_rows = 7
+
+    npc_directions = ["up", "down", "left", "right"]
+    npc_offset_range = (-1, 1)
+    npc_speed_range = (0, 1)
