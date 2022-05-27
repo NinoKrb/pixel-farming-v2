@@ -22,7 +22,8 @@ class FieldTile(pygame.sprite.Sprite):
         self.update_sprite(self.filename)
 
     def update_zoom(self, image):
-        self.image = pygame.transform.scale(image, (int(self.size[0] * self.game.zoom), int(self.size[1] * self.game.zoom)))
+        self.image = pygame.transform.scale(image,
+                                            (int(self.size[0] * self.game.zoom), int(self.size[1] * self.game.zoom)))
         self.rect = self.image.get_rect()
         self.set_pos(*self.pos)
 
@@ -73,29 +74,35 @@ class CropTile(FieldTile):
             self.can_replant = True
 
     def cursor_logic(self):
+        cursor = None
         if self.check_cursor_position():
-            if self.growth_state == -1 and self.can_replant:
+            if self.growth_state == -1 and self.can_replant and self.game.action['name'] == "seed":
                 cursor = self.crop_type['seed_cursor']
-            elif self.growth_state != self.crop_type['max_growth_state']:
+            elif self.growth_state != self.crop_type['max_growth_state'] and self.game.action['name'] == "water":
                 cursor = self.crop_type['hover_cursor']
             else:
-                cursor = self.crop_type['max_hover_cursor']
+                if self.game.action['name'] == "farm":
+                    cursor = self.crop_type['max_hover_cursor']
 
-            self.game.cursor.update_sprite(Settings.cursors[cursor])
-            self.is_hovered = True
+            if cursor:
+                self.game.cursor.update_sprite(Settings.cursors[cursor])
+                self.is_hovered = True
 
-            if self.game.cursor.get_pressed((1, 0, 0)) and self.is_pressed == False:
+            if self.game.cursor.get_pressed((1, 0, 0)) and not self.is_pressed:
                 if self.growth_state == -1:
-                    if self.can_replant:
-                        self.seed()
-                    else:
-                        print("Try to plant new Crop")
+                    if self.game.action['name'] == "seed":
+                        if self.can_replant:
+                            self.seed()
+                        else:
+                            print("Try to plant new Crop")
                 elif self.growth_state != self.crop_type['max_growth_state']:
-                    if not self.is_watered:
-                        self.is_watered = True
-                        self.grow()
+                    if self.game.action['name'] == "water":
+                        if not self.is_watered:
+                            self.is_watered = True
+                            self.grow()
                 else:
-                    self.harvest()
+                    if self.game.action['name'] == "farm":
+                        self.harvest()
                 self.is_pressed = True
         else:
             if self.is_hovered:
@@ -124,7 +131,7 @@ class CropTile(FieldTile):
         self.game.inventory.add_item(self.crop_type['item_id'], 1)
         self.game.inventory.add_item(self.crop_type['seed_item_id'], 1)
         self.can_replant = False
-        #self.game.inventory.report()
+        # self.game.inventory.report()
 
     def seed(self):
         if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
