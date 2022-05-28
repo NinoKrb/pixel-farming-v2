@@ -32,7 +32,7 @@ class Settings(object):
     crop_growth_range = (1.5, 2.5)
     crop_watering_range = (1, 1)
 
-    replant_time = 10000
+    replant_time = 100000
 
     player_size = (80, 80)
     player_spawn_position = (0, 0)
@@ -65,3 +65,5 @@ class Settings(object):
     npc_directions = ["up", "down", "left", "right"]
     npc_offset_range = (-1, 1)
     npc_speed_range = (0, 1)
+
+    map_tile_size = (16, 16)
