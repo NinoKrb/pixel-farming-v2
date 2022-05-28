@@ -4,8 +4,9 @@ from classes.timer import Timer
 
 
 class Field():
-    def __init__(self, name, soil_tiles, crop_tiles):
+    def __init__(self, name, sign_tile, soil_tiles, crop_tiles):
         self.name = name
+        self.sign_tile = sign_tile
         self.soil_tiles = soil_tiles
         self.crop_tiles = crop_tiles
 
@@ -39,6 +40,11 @@ class FieldTile(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+
+class FieldSignTile(FieldTile):
+    def __init__(self, game, filename, pos, size, path=Settings.path_image):
+        super().__init__(game, filename, pos, size, path)
 
 
 class CropTile(FieldTile):
@@ -158,6 +164,7 @@ class FieldManager():
         for field in self.fields:
             field.soil_tiles.draw(screen)
             field.crop_tiles.draw(screen)
+            field.sign_tile.draw(screen)
 
     def load_crop_types(self):
         crop_types = {}
@@ -187,6 +194,7 @@ class FieldManager():
             y = 0
             field_tiles = pygame.sprite.Group()
             field_soil_tiles = pygame.sprite.Group()
+            sign_tile = None
 
             with open(os.path.join(Settings.path_fields, field)) as file:
                 data = csv.reader(file, delimiter=",")
@@ -194,25 +202,33 @@ class FieldManager():
                 for row in data:
                     for col in row:
                         if col != "-1":
-                            field_tiles.add(
-                                FieldTile(
-                                    self.game,
-                                    "farm_soil.png",
-                                    (x * Settings.tile_width, y * Settings.tile_height),
-                                    (Settings.tile_width, Settings.tile_height)
+                            if col == "2":
+                                sign_tile = FieldSignTile(
+                                                self.game,
+                                                "sign_buyed.png",
+                                                (x * Settings.tile_width, y * Settings.tile_height),
+                                                (Settings.tile_width, Settings.tile_height)
+                                            )
+                            else:
+                                field_tiles.add(
+                                    FieldTile(
+                                        self.game,
+                                        "farm_soil.png",
+                                        (x * Settings.tile_width, y * Settings.tile_height),
+                                        (Settings.tile_width, Settings.tile_height)
+                                    )
                                 )
-                            )
-                            field_soil_tiles.add(
-                                CropTile(
-                                    self.game,
-                                    self.crop_types["3"],
-                                    (x * Settings.tile_width, y * Settings.tile_height),
-                                    (Settings.tile_width, Settings.tile_height)
+                                field_soil_tiles.add(
+                                    CropTile(
+                                        self.game,
+                                        self.crop_types["3"],
+                                        (x * Settings.tile_width, y * Settings.tile_height),
+                                        (Settings.tile_width, Settings.tile_height)
+                                    )
                                 )
-                            )
                         x += 1
                     y += 1
                     x = 0
 
-            fields.append(Field(field, field_tiles, field_soil_tiles))
+            fields.append(Field(field, sign_tile, field_tiles, field_soil_tiles))
         return fields
