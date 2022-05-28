@@ -13,9 +13,13 @@ class InventoryHandler():
     def __init__(self):
         self.items = []
 
-    def initialize_itemstacks(self, items):
+    def initialize_itemstacks(self, items, saved_items):
         for item in items:
-            self.items.append(ItemStack(item, 0))
+            item_amount = 0
+            for saved_item in saved_items:
+                if saved_item['item_id'] == item.id:
+                    item_amount = saved_item['amount']
+            self.items.append(ItemStack(item, item_amount))
 
     def report(self):
         for item in self.items:
@@ -41,6 +45,15 @@ class InventoryHandler():
         for item in self.items:
             if item.item.id == id:
                 return item
+
+    def get_storage_inventory(self):
+        inventory_storage = []
+        for item in self.items:
+            inventory_storage.append({
+                "item_id": item.item.id,
+                "amount": item.amount
+            })
+        return inventory_storage
 
 
 class InventorySlot(MenuSlot):
