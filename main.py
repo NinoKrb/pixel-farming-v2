@@ -1,3 +1,5 @@
+import random
+
 import pygame, os
 from settings import Settings
 from classes.cursor import Cursor
@@ -8,6 +10,7 @@ from classes.shop import ShopManager, ShopItem
 from classes.overlay import OverlayManager
 from classes.player import Character, WalkingNPC
 from classes.map import Map
+from classes.storage import Storage
 
 
 class ImageLayer(pygame.sprite.Sprite):
@@ -44,7 +47,10 @@ class Game():
         pygame.init()
         pygame.display.set_caption(Settings.title)
 
-        self.money = 0
+        self.save_game_manager = Storage(self)
+
+        self.money = self.save_game_manager.storage['money']
+        self.owned_fields = self.save_game_manager.storage['owned_fields']
 
         self.zoom = Settings.zoom_default
         self.inventory_font = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 14)
@@ -64,7 +70,7 @@ class Game():
         self.item_manager = ItemManager()
 
         self.inventory = InventoryHandler()
-        self.inventory.initialize_itemstacks(self.item_manager.items)
+        self.inventory.initialize_itemstacks(self.item_manager.items, self.save_game_manager.storage['inventory'])
 
         self.inventory_manager = InventoryManager(self, 'inv_container.png', 'slot.png')
         self.inventory_manager.init_itemstacks(self.inventory.items)
@@ -78,28 +84,7 @@ class Game():
         self.shop_manager.init_itemstacks(shop_items)
 
         self.overlay_manager = OverlayManager(self)
-        self.actions = [
-            {
-                "name": "cursor",
-                "icon": "hand_open_02.png",
-                "path": Settings.path_icons
-            },
-            {
-                "name": "seed",
-                "icon": "plant_alt.png",
-                "path": Settings.path_icons
-            },
-            {
-                "name": "farm",
-                "icon": "shovel.png",
-                "path": Settings.path_icons
-            },
-            {
-                "name": "water",
-                "icon": "water.png",
-                "path": Settings.path_icons
-            }
-        ]
+        self.actions = Settings.player_actions
         self.current_action = 0
 
         self.map_manager = Map(self)
@@ -109,6 +94,8 @@ class Game():
         self.overlay_state = True
         self.running = True
 
+        self.save_game_manager.save_storage(self)
+
     @property
     def action(self):
         return self.actions[self.current_action]
@@ -116,9 +103,9 @@ class Game():
     def create_npc(self, pos):
         new_character = WalkingNPC(game=self, options={
             'base': "base",
-            'haircut': "mophair",
+            'haircut': random.choice(Settings.npc_hair_types),
             'tools': "tools"
-        }, size=Settings.player_size, pos=pos)
+        }, size=Settings.npc_size, pos=pos)
         self.characters.add(new_character)
 
     def run(self):
@@ -158,6 +145,9 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    print("Spiel Speichern...")
+                    self.save_game_manager.save_storage(self)
+                    print("Spiel wurde gespeichert.")
                     self.running = False
 
                 if event.key == pygame.K_e:
