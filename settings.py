@@ -34,9 +34,6 @@ class Settings(object):
 
     replant_time = 100000
 
-    player_size = (80, 80)
-    player_spawn_position = (0, 0)
-
     cursor_size = (19, 19)
     cursors = {
         "default": "cursor_01.png",
@@ -62,8 +59,42 @@ class Settings(object):
     inventory_columns = 7
     inventory_rows = 7
 
+    npc_size = (80, 80)
     npc_directions = ["up", "down", "left", "right"]
     npc_offset_range = (-1, 1)
     npc_speed_range = (0, 1)
+    npc_hair_types = [
+        "longhair",
+        "curlyhair",
+        "spikeyhair",
+        "mophair",
+        "shorthair",
+        "bowlhair"
+    ]
 
     map_tile_size = (16, 16)
+
+    player_actions = [
+            {
+                "name": "cursor",
+                "icon": "hand_open_02.png",
+                "path": path_icons
+            },
+            {
+                "name": "seed",
+                "icon": "plant_alt.png",
+                "path": path_icons
+            },
+            {
+                "name": "farm",
+                "icon": "shovel.png",
+                "path": path_icons
+            },
+            {
+                "name": "water",
+                "icon": "water.png",
+                "path": path_icons
+            }
+        ]
+
+    storage_filename = "storage.json"
