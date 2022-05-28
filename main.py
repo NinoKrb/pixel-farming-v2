@@ -7,6 +7,7 @@ from classes.inventory import InventoryHandler, InventoryManager
 from classes.shop import ShopManager, ShopItem
 from classes.overlay import OverlayManager
 from classes.player import Character, WalkingNPC
+from classes.map import Map
 
 
 class ImageLayer(pygame.sprite.Sprite):
@@ -58,17 +59,7 @@ class Game():
 
         self.field_manager = FieldManager(self)
 
-        self.character = WalkingNPC(game=self, options={
-            'base': "base",
-            'haircut': "curlyhair",
-            'tools': "tools"
-        }, size=Settings.player_size, pos=(Settings.window_width // 2, Settings.window_height // 2))
-
-        self.character2 = WalkingNPC(game=self, options={
-            'base': "base",
-            'haircut': "mophair",
-            'tools': "tools"
-        }, size=Settings.player_size, pos=(Settings.window_width // 2, Settings.window_height // 2))
+        self.characters = pygame.sprite.Group()
 
         self.item_manager = ItemManager()
 
@@ -111,6 +102,8 @@ class Game():
         ]
         self.current_action = 0
 
+        self.map_manager = Map(self)
+
         self.inventory_state = False
         self.shop_state = False
         self.overlay_state = True
@@ -119,6 +112,14 @@ class Game():
     @property
     def action(self):
         return self.actions[self.current_action]
+
+    def create_npc(self, pos):
+        new_character = WalkingNPC(game=self, options={
+            'base': "base",
+            'haircut': "mophair",
+            'tools': "tools"
+        }, size=Settings.player_size, pos=pos)
+        self.characters.add(new_character)
 
     def run(self):
         while self.running:
@@ -130,13 +131,13 @@ class Game():
     def update(self):
         self.field_manager.update()
         self.cursor.update()
-        self.character.update()
-        self.character2.update()
+        self.characters.update()
 
     def draw(self):
         self.background.draw(self.screen)
         self.collision_layer.draw(self.screen)
         self.field_manager.draw_fields(self.screen)
+        self.characters.draw(self.screen)
         if self.inventory_state:
             self.inventory_manager.draw(self.screen)
         elif self.shop_state:
@@ -145,8 +146,7 @@ class Game():
             if self.overlay_state:
                 self.overlay_manager.draw(self.screen)
         self.cursor.draw(self.screen)
-        self.character.draw(self.screen)
-        self.character2.draw(self.screen)
+
         pygame.display.flip()
 
     def update_zoom(self):
