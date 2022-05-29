@@ -51,6 +51,8 @@ class Game():
 
         self.money = self.save_game_manager.storage['money']
         self.owned_fields = self.save_game_manager.storage['owned_fields']
+        self.characters = pygame.sprite.Group()
+        self.modals = []
 
         self.zoom = Settings.zoom_default
         self.inventory_font = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 14)
@@ -64,8 +66,6 @@ class Game():
         self.cursor = Cursor(Settings.cursors['default'])
 
         self.field_manager = FieldManager(self)
-
-        self.characters = pygame.sprite.Group()
 
         self.item_manager = ItemManager()
 
@@ -120,6 +120,9 @@ class Game():
         self.cursor.update()
         self.characters.update()
 
+        for modal in self.modals:
+            modal.update()
+
     def draw(self):
         self.background.draw(self.screen)
         self.collision_layer.draw(self.screen)
@@ -132,6 +135,9 @@ class Game():
         else:
             if self.overlay_state:
                 self.overlay_manager.draw(self.screen)
+
+            for modal in self.modals:
+                modal.draw(self.screen)
         self.cursor.draw(self.screen)
 
         pygame.display.flip()
@@ -145,9 +151,7 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    print("Spiel Speichern...")
                     self.save_game_manager.save_storage(self)
-                    print("Spiel wurde gespeichert.")
                     self.running = False
 
                 if event.key == pygame.K_e:
@@ -179,15 +183,15 @@ class Game():
                 if self.shop_state:
                     self.shop_manager.check_cursor()
 
-            if event.type == pygame.MOUSEWHEEL:
-                # Zoom in
-                if event.y == 1:
-                    new_zoom = round(self.zoom + Settings.zoom_step, 1)
+            # if event.type == pygame.MOUSEWHEEL:
+            # Zoom in
+            #     if event.y == 1:
+            #         new_zoom = round(self.zoom + Settings.zoom_step, 1)
 
-                # Zoom Out
-                else:
-                    new_zoom = round(self.zoom - Settings.zoom_step, 1)
+            # Zoom Out
+            #     else:
+            #         new_zoom = round(self.zoom - Settings.zoom_step, 1)
 
-                if Settings.zoom_max >= new_zoom >= Settings.zoom_min:
-                    self.zoom = new_zoom
-                    self.update_zoom()
+            #     if Settings.zoom_max >= new_zoom >= Settings.zoom_min:
+            #         self.zoom = new_zoom
+            #         self.update_zoom()
