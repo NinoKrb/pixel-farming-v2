@@ -2,14 +2,22 @@
     "crops": [
         {
             "id": 0,
+            "item_id": 0,
+            "seed_item_id": 0,
             "title": "Nichts",
             "fallback_image": "soil_01.png",
-            "growth_timer": -1,
-            "watering_timer": -1,
+            "growth_timer": 5000000000000,
+            "watering_timer": 100000000000000,
             "max_growth_state": 0,
-            "hover_cursor": "default",
-            "max_hover_cursor": "default",
-            "seed_cursor": "default"
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": 0,
+                    "image": "soil_00.png"
+                }
+            ]
         },
         {
             "id": 1,
@@ -30,18 +38,22 @@
                 },
                 {
                     "growth_state": 1,
-                    "image": "potato_01.png"
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 2,
-                    "image": "potato_02.png"
+                    "image": "potato_01.png"
                 },
                 {
                     "growth_state": 3,
-                    "image": "potato_03.png"
+                    "image": "potato_02.png"
                 },
                 {
                     "growth_state": 4,
+                    "image": "potato_03.png"
+                },
+                {
+                    "growth_state": 5,
                     "image": "potato_04.png"
                 }
             ]
@@ -65,18 +77,22 @@
                 },
                 {
                     "growth_state": 1,
-                    "image": "beetroot_01.png"
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 2,
-                    "image": "beetroot_02.png"
+                    "image": "beetroot_01.png"
                 },
                 {
                     "growth_state": 3,
-                    "image": "beetroot_03.png"
+                    "image": "beetroot_02.png"
                 },
                 {
                     "growth_state": 4,
+                    "image": "beetroot_03.png"
+                },
+                {
+                    "growth_state": 5,
                     "image": "beetroot_04.png"
                 }
             ]
@@ -100,18 +116,22 @@
                 },
                 {
                     "growth_state": 1,
-                    "image": "cabbage_01.png"
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 2,
-                    "image": "cabbage_02.png"
+                    "image": "cabbage_01.png"
                 },
                 {
                     "growth_state": 3,
-                    "image": "cabbage_03.png"
+                    "image": "cabbage_02.png"
                 },
                 {
                     "growth_state": 4,
+                    "image": "cabbage_03.png"
+                },
+                {
+                    "growth_state": 5,
                     "image": "cabbage_04.png"
                 }
             ]
@@ -135,18 +155,22 @@
                 },
                 {
                     "growth_state": 1,
-                    "image": "cauliflower_01.png"
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 2,
-                    "image": "cauliflower_02.png"
+                    "image": "cauliflower_01.png"
                 },
                 {
                     "growth_state": 3,
-                    "image": "cauliflower_03.png"
+                    "image": "cauliflower_02.png"
                 },
                 {
                     "growth_state": 4,
+                    "image": "cauliflower_03.png"
+                },
+                {
+                    "growth_state": 5,
                     "image": "cauliflower_04.png"
                 }
             ]
@@ -170,18 +194,22 @@
                 },
                 {
                     "growth_state": 1,
-                    "image": "kale_01.png"
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 2,
-                    "image": "kale_02.png"
+                    "image": "kale_01.png"
                 },
                 {
                     "growth_state": 3,
-                    "image": "kale_03.png"
+                    "image": "kale_02.png"
                 },
                 {
                     "growth_state": 4,
+                    "image": "kale_03.png"
+                },
+                {
+                    "growth_state": 5,
                     "image": "kale_04.png"
                 }
             ]
@@ -205,18 +233,22 @@
                 },
                 {
                     "growth_state": 1,
-                    "image": "parsnip_01.png"
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 2,
-                    "image": "parsnip_02.png"
+                    "image": "parsnip_01.png"
                 },
                 {
                     "growth_state": 3,
-                    "image": "parsnip_03.png"
+                    "image": "parsnip_02.png"
                 },
                 {
                     "growth_state": 4,
+                    "image": "parsnip_03.png"
+                },
+                {
+                    "growth_state": 5,
                     "image": "parsnip_04.png"
                 }
             ]
@@ -240,18 +272,22 @@
                 },
                 {
                     "growth_state": 1,
-                    "image": "pumpkin_01.png"
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 2,
-                    "image": "pumpkin_02.png"
+                    "image": "pumpkin_01.png"
                 },
                 {
                     "growth_state": 3,
-                    "image": "pumpkin_03.png"
+                    "image": "pumpkin_02.png"
                 },
                 {
                     "growth_state": 4,
+                    "image": "pumpkin_03.png"
+                },
+                {
+                    "growth_state": 5,
                     "image": "pumpkin_04.png"
                 }
             ]
