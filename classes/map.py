@@ -41,9 +41,6 @@ class Map():
                     if col != '-1':
                         if col == "0":
                             layer_sprites.add(BorderTile(Settings.map_tile_size, (x * Settings.map_tile_size[0], y * Settings.map_tile_size[1])))
-                            pass
-                        elif col == "1":
-                            self.game.create_npc((x * Settings.map_tile_size[0], y * Settings.map_tile_size[1]))
                     x += 1
                 y += 1
                 x = 0
