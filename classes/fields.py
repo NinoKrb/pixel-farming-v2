@@ -1,11 +1,13 @@
 import pygame, os, json, csv, random
 from settings import Settings
 from classes.timer import Timer
+from classes.modal import BuyFieldModal
 
 
 class Field():
-    def __init__(self, name, sign_tile, soil_tiles, crop_tiles):
+    def __init__(self, name, npc_pos, sign_tile, soil_tiles, crop_tiles):
         self.name = name
+        self.npc_pos = npc_pos
         self.sign_tile = sign_tile
         self.soil_tiles = soil_tiles
         self.crop_tiles = crop_tiles
@@ -23,8 +25,7 @@ class FieldTile(pygame.sprite.Sprite):
         self.update_sprite(self.filename)
 
     def update_zoom(self, image):
-        self.image = pygame.transform.scale(image,
-                                            (int(self.size[0] * self.game.zoom), int(self.size[1] * self.game.zoom)))
+        self.image = pygame.transform.scale(image, (int(self.size[0] * self.game.zoom), int(self.size[1] * self.game.zoom)))
         self.rect = self.image.get_rect()
         self.set_pos(*self.pos)
 
@@ -43,14 +44,32 @@ class FieldTile(pygame.sprite.Sprite):
 
 
 class FieldSignTile(FieldTile):
-    def __init__(self, game, filename, pos, size, path=Settings.path_image):
+    def __init__(self, game, field, filename, pos, size, path=Settings.path_image):
         super().__init__(game, filename, pos, size, path)
+        self.field = field
+
+    def update(self):
+        if self.field not in self.game.owned_fields:
+            if self.check_cursor_position(self.rect):
+                if self.game.cursor.get_pressed((1, 0, 0)):
+                    for modal in self.game.modals:
+                        try:
+                            if modal.field == self.field:
+                                modal.visible = True
+                        except:
+                            pass
+
+    def check_cursor_position(self, surface):
+        if pygame.Rect.collidepoint(surface, *self.game.cursor.pos):
+            return True
+        return False
 
 
 class CropTile(FieldTile):
-    def __init__(self, game, attributes, pos, size):
+    def __init__(self, game, field, attributes, pos, size):
         super().__init__(game, attributes['fallback_image'], pos, size, Settings.path_crops)
         self.crop_type = attributes
+        self.field = field
 
         self.replant_timer = Timer(Settings.replant_time)
         self.watering_timer = Timer(self.crop_type['watering_timer'] * random.uniform(*Settings.crop_watering_range))
@@ -121,33 +140,38 @@ class CropTile(FieldTile):
             return True
 
     def grow(self):
-        if self.growth_state != -1:
-            if self.growth_state != self.crop_type['max_growth_state']:
-                self.growth_state += 1
-                state = self.get_growth_state(self.growth_state)
-                if state:
-                    self.update_sprite(state['image'])
-                self.can_replant = False
+        if self.field in self.game.owned_fields:
+            if self.growth_state != -1:
+                if self.growth_state != self.crop_type['max_growth_state']:
+                    self.growth_state += 1
+                    state = self.get_growth_state(self.growth_state)
+                    if state:
+                        self.update_sprite(state['image'])
+                    self.can_replant = False
 
     def harvest(self):
-        state = self.get_growth_state(0)
-        self.update_sprite(state['image'])
-        self.growth_state = -1
+        if self.field in self.game.owned_fields:
+            state = self.get_growth_state(0)
+            self.update_sprite(state['image'])
+            self.growth_state = -1
 
-        self.game.inventory.add_item(self.crop_type['item_id'], 1)
-        self.game.inventory.add_item(self.crop_type['seed_item_id'], 1)
-        self.can_replant = False
-        # self.game.inventory.report()
+            if self.crop_type['item_id'] is not 0:
+                self.game.inventory.add_item(self.crop_type['item_id'], 1)
+            if self.crop_type['seed_item_id'] is not 0:
+                self.game.inventory.add_item(self.crop_type['seed_item_id'], 1)
+            self.can_replant = False
+            # self.game.inventory.report()
 
     def seed(self):
-        if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
-            state = self.get_growth_state(1)
-            self.update_sprite(state['image'])
-            self.growth_state = 0
+        if self.field in self.game.owned_fields:
+            if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
+                state = self.get_growth_state(1)
+                self.update_sprite(state['image'])
+                self.growth_state = 0
 
-            print("Plant new Crop")
-        else:
-            print("Not enough Crops")
+                print("Plant new Crop")
+            else:
+                print("Not enough Crops")
 
 
 class FieldManager():
@@ -156,9 +180,24 @@ class FieldManager():
         self.crop_types = self.load_crop_types()
         self.fields = self.load_fields()
 
+    def buy_field(self, target_field):
+        print(f"Buy target field: {target_field}")
+        selected_field = None
+        for field in self.fields:
+            if field.name == target_field:
+                selected_field = field
+
+        if selected_field is not None:
+            for tile in selected_field.crop_tiles:
+                tile.crop_type = self.crop_types["0"]
+
+            self.game.create_npc(selected_field.npc_pos)
+            selected_field.sign_tile.update_sprite("sign_buyed.png")
+
     def update(self):
         for field in self.fields:
             field.crop_tiles.update()
+            field.sign_tile.update()
 
     def draw_fields(self, screen):
         for field in self.fields:
@@ -190,6 +229,8 @@ class FieldManager():
         fields = []
         field_files = os.listdir(Settings.path_fields)
         for field in field_files:
+            self.game.modals.append(BuyFieldModal(self.game, field))
+
             x = 0
             y = 0
             field_tiles = pygame.sprite.Group()
@@ -203,13 +244,24 @@ class FieldManager():
                     for col in row:
                         if col != "-1":
                             if col == "2":
+                                if field in self.game.owned_fields:
+                                    filename = "sign_buyed.png"
+                                else:
+                                    filename = "sign.png"
                                 sign_tile = FieldSignTile(
                                                 self.game,
-                                                "sign_buyed.png",
+                                                field,
+                                                filename,
                                                 (x * Settings.tile_width, y * Settings.tile_height),
                                                 (Settings.tile_width, Settings.tile_height)
                                             )
                             else:
+                                if col == "1":
+                                    npc_pos = (x * Settings.tile_width, y * Settings.tile_height)
+                                    if field in self.game.owned_fields:
+                                        self.game.create_npc((x * Settings.tile_width, y * Settings.tile_height))
+                                    else:
+                                        print("Kein NPC erzeugt, da Feld nicht gekauft wurde")
                                 field_tiles.add(
                                     FieldTile(
                                         self.game,
@@ -218,17 +270,29 @@ class FieldManager():
                                         (Settings.tile_width, Settings.tile_height)
                                     )
                                 )
-                                field_soil_tiles.add(
-                                    CropTile(
-                                        self.game,
-                                        self.crop_types["3"],
-                                        (x * Settings.tile_width, y * Settings.tile_height),
-                                        (Settings.tile_width, Settings.tile_height)
+                                if field in self.game.owned_fields:
+                                    field_soil_tiles.add(
+                                        CropTile(
+                                            self.game,
+                                            field,
+                                            self.crop_types["3"],
+                                            (x * Settings.tile_width, y * Settings.tile_height),
+                                            (Settings.tile_width, Settings.tile_height)
+                                        )
                                     )
-                                )
+                                else:
+                                    field_soil_tiles.add(
+                                        CropTile(
+                                            self.game,
+                                            field,
+                                            self.crop_types["0"],
+                                            (x * Settings.tile_width, y * Settings.tile_height),
+                                            (Settings.tile_width, Settings.tile_height)
+                                        )
+                                    )
                         x += 1
                     y += 1
                     x = 0
 
-            fields.append(Field(field, sign_tile, field_tiles, field_soil_tiles))
+            fields.append(Field(field, npc_pos, sign_tile, field_tiles, field_soil_tiles))
         return fields
