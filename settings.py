@@ -24,6 +24,7 @@ class Settings(object):
     path_crops = os.path.join(path_image, "crops")
     path_cursors = os.path.join(path_image, "cursors")
     path_icons = os.path.join(path_image, "icons")
+    path_texts = os.path.join(path_image, "text")
 
     path_storage = os.path.join(path_file, "storage")
     path_fields = os.path.join(path_storage, "fields")
@@ -31,6 +32,15 @@ class Settings(object):
     crop_type_filename = "crops.json"
     crop_growth_range = (1.5, 2.5)
     crop_watering_range = (1, 1)
+
+    field_prices = {
+        "map_field_1.csv": 200,
+        "map_field_2.csv": 200,
+        "map_field_3.csv": 200,
+        "map_field_4.csv": 200,
+        "map_field_5.csv": 200,
+        "map_field_6.csv": 200
+    }
 
     replant_time = 100000
 
