@@ -30,7 +30,7 @@ class ShopSlot(MenuSlot):
                     if self.game.inventory.get_amount_by_id(self.itemstack.item.id) >= 1:
                         self.game.money += self.itemstack.price
                         self.game.inventory.remove_item(self.itemstack.item.id, 1)
-                        print(f"Kontostand: {self.game.money}€")
+                        print(f"Kontostand: {self.game.money} Credits")
                     else:
                         print("Nicht genügend Items")
 
