@@ -66,7 +66,7 @@ class FieldSignTile(FieldTile):
 
 
 class CropTile(FieldTile):
-    def __init__(self, game, field, attributes, pos, size):
+    def __init__(self, game, field, attributes, pos, size, growth_state=0):
         super().__init__(game, attributes['fallback_image'], pos, size, Settings.path_crops)
         self.crop_type = attributes
         self.field = field
@@ -74,7 +74,7 @@ class CropTile(FieldTile):
         self.replant_timer = Timer(Settings.replant_time)
         self.watering_timer = Timer(self.crop_type['watering_timer'] * random.uniform(*Settings.crop_watering_range))
         self.growth_timer = Timer(self.crop_type['growth_timer'] * random.uniform(*Settings.crop_growth_range))
-        self.growth_state = 0
+        self.growth_state = growth_state
 
         self.is_hovered = False
         self.is_pressed = False
@@ -187,11 +187,11 @@ class FieldManager():
                 for crop_tile in field.crop_tiles:
                     if crop_tile.crop_type['id'] != 0:
                         save_able_crops.append({
-                            "id": crop_tile.crop_type['id'],
-                            "growth_state": crop_tile.growth_state,
+                            "crop_id": crop_tile.crop_type['id'],
+                            "growth_state": crop_tile.growth_state - 1,
                             "position": {
                                 "x": crop_tile.pos[0],
-                                "y": crop_tile.pos[0]
+                                "y": crop_tile.pos[1]
                             }
                         })
 
@@ -243,6 +243,13 @@ class FieldManager():
             for tile in field.soil_tiles:
                 tile.update_zoom(tile.original_image)
 
+    def find_crop_from_storage(self, x, y):
+        for crop in self.game.save_game_manager.storage['crops']:
+            if crop['position']['x'] == x:
+                if crop['position']['y'] == y:
+                    return crop
+        return False
+
     def load_fields(self):
         fields = []
         field_files = os.listdir(Settings.path_fields)
@@ -289,15 +296,32 @@ class FieldManager():
                                     )
                                 )
                                 if field in self.game.owned_fields:
-                                    field_soil_tiles.add(
-                                        CropTile(
-                                            self.game,
-                                            field,
-                                            self.crop_types["3"],
-                                            (x * Settings.tile_width, y * Settings.tile_height),
-                                            (Settings.tile_width, Settings.tile_height)
+                                    # Check if Cropfield is already saved
+                                    saved_crop = self.find_crop_from_storage(x * Settings.tile_width, y * Settings.tile_height)
+                                    if saved_crop:
+                                        # Build Crop Tile from savings
+                                        field_soil_tiles.add(
+                                            CropTile(
+                                                self.game,
+                                                field,
+                                                self.crop_types[str(saved_crop['crop_id'])],
+                                                (saved_crop['position']['x'], saved_crop['position']['y']),
+                                                (Settings.tile_width, Settings.tile_height),
+                                                saved_crop['growth_state']
+                                            )
                                         )
-                                    )
+
+                                    else:
+                                        # Generate new Crop Tile
+                                        field_soil_tiles.add(
+                                            CropTile(
+                                                self.game,
+                                                field,
+                                                self.crop_types["3"],
+                                                (x * Settings.tile_width, y * Settings.tile_height),
+                                                (Settings.tile_width, Settings.tile_height)
+                                            )
+                                        )
                                 else:
                                     field_soil_tiles.add(
                                         CropTile(
