@@ -155,9 +155,9 @@ class CropTile(FieldTile):
             self.update_sprite(state['image'])
             self.growth_state = -1
 
-            if self.crop_type['item_id'] is not 0:
+            if self.crop_type['item_id'] != 0:
                 self.game.inventory.add_item(self.crop_type['item_id'], 1)
-            if self.crop_type['seed_item_id'] is not 0:
+            if self.crop_type['seed_item_id'] != 0:
                 self.game.inventory.add_item(self.crop_type['seed_item_id'], 1)
             self.can_replant = False
             # self.game.inventory.report()
@@ -179,6 +179,24 @@ class FieldManager():
         self.game = game
         self.crop_types = self.load_crop_types()
         self.fields = self.load_fields()
+
+    def get_save_able_field_crops(self):
+        save_able_crops = []
+        for field in self.fields:
+            if field.name in self.game.owned_fields:
+                for crop_tile in field.crop_tiles:
+                    if crop_tile.crop_type['id'] != 0:
+                        save_able_crops.append({
+                            "id": crop_tile.crop_type['id'],
+                            "growth_state": crop_tile.growth_state,
+                            "position": {
+                                "x": crop_tile.pos[0],
+                                "y": crop_tile.pos[0]
+                            }
+                        })
+
+        print(save_able_crops)
+        return save_able_crops
 
     def buy_field(self, target_field):
         print(f"Buy target field: {target_field}")
