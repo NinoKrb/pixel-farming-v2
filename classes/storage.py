@@ -21,7 +21,8 @@ class Storage():
             "id": save_game_id,
             "money": "",
             "owned_fields": [],
-            "inventory": []
+            "inventory": [],
+            "crops": []
         }
         data['save_games'].append(new_save_game)
         self.save_save_games(file, data)
@@ -45,10 +46,11 @@ class Storage():
 
     def save_storage(self, game):
         data, file = self.load_save_games()
-        for scoreset in data['save_games']:
-            if scoreset['id'] == self.save_game:
-                scoreset['money'] = game.money
-                scoreset['owned_fields'] = game.owned_fields
-                scoreset['inventory'] = game.inventory.get_storage_inventory()
+        for score_set in data['save_games']:
+            if score_set['id'] == self.save_game:
+                score_set['money'] = game.money
+                score_set['owned_fields'] = game.owned_fields
+                score_set['inventory'] = game.inventory.get_storage_inventory()
+                score_set['crops'] = game.field_manager.get_save_able_field_crops()
 
         self.save_save_games(file, data)
