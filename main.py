@@ -89,6 +89,7 @@ class Game():
 
         self.map_manager = Map(self)
 
+        self.pause_state = False
         self.inventory_state = False
         self.shop_state = False
         self.overlay_state = True
@@ -116,12 +117,16 @@ class Game():
             self.watch_for_events()
 
     def update(self):
-        self.field_manager.update()
         self.cursor.update()
-        self.characters.update()
+        if self.pause_state:
+            pass
 
-        for modal in self.modals:
-            modal.update()
+        else:
+            self.field_manager.update()
+            self.characters.update()
+
+            for modal in self.modals:
+                modal.update()
 
     def draw(self):
         self.background.draw(self.screen)
@@ -157,6 +162,9 @@ class Game():
                 if event.key == pygame.K_e:
                     if not self.shop_state:
                         self.inventory_state = not self.inventory_state
+
+                if event.key == pygame.K_p:
+                    self.pause_state = not self.pause_state
 
                 if event.key == pygame.K_s:
                     if not self.inventory_state:
