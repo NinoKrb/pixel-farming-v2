@@ -195,7 +195,6 @@ class FieldManager():
                             }
                         })
 
-        print(save_able_crops)
         return save_able_crops
 
     def buy_field(self, target_field):
