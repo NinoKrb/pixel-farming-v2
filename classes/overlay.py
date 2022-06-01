@@ -11,8 +11,10 @@ class OverlaySprite(pygame.sprite.Sprite):
         self.path = path
         self.update_sprite(self.filename)
 
-    def update_sprite(self, filename):
-        self.image = pygame.image.load(os.path.join(self.path, filename)).convert_alpha()
+    def update_sprite(self, filename, path=None):
+        if path is None:
+            path = self.path
+        self.image = pygame.image.load(os.path.join(path, filename)).convert_alpha()
         self.image = pygame.transform.scale(self.image, self.size)
         self.rect = self.image.get_rect()
         self.set_pos(*self.pos)
