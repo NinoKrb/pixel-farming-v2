@@ -85,7 +85,9 @@ class Game():
 
         self.overlay_manager = OverlayManager(self)
         self.actions = Settings.player_actions
+        self.seed_actions = Settings.player_seed_actions
         self.current_action = 0
+        self.current_seed_action = 0
 
         self.map_manager = Map(self)
 
@@ -100,6 +102,10 @@ class Game():
     @property
     def action(self):
         return self.actions[self.current_action]
+
+    @property
+    def current_seed(self):
+        return self.seed_actions[self.current_seed_action]
 
     def create_npc(self, pos):
         new_character = WalkingNPC(game=self, options={
@@ -175,12 +181,24 @@ class Game():
                 if event.key == pygame.K_UP:
                     if self.current_action != len(self.actions) - 1:
                         self.current_action += 1
-                        self.overlay_manager.current_action_item.update_sprite(self.actions[self.current_action]['icon'])
+                        self.overlay_manager.current_action_item.update_sprite(self.action['icon'])
 
                 if event.key == pygame.K_DOWN:
                     if self.current_action != 0:
                         self.current_action -= 1
-                        self.overlay_manager.current_action_item.update_sprite(self.actions[self.current_action]['icon'])
+                        self.overlay_manager.current_action_item.update_sprite(self.action['icon'])
+
+                if event.key == pygame.K_LEFT:
+                    if self.action['name'] == "seed":
+                        if self.current_seed_action != 0:
+                            self.current_seed_action -= 1
+                            self.overlay_manager.current_action_item.update_sprite(self.inventory.find_item(self.current_seed['item_id']).item.image, self.current_seed['path'])
+
+                if event.key == pygame.K_RIGHT:
+                    if self.action['name'] == "seed":
+                        if self.current_seed_action != len(self.seed_actions) - 1:
+                            self.current_seed_action += 1
+                            self.overlay_manager.current_action_item.update_sprite(self.inventory.find_item(self.current_seed['item_id']).item.image, self.current_seed['path'])
 
             if event.type == pygame.QUIT:
                 self.running = False
