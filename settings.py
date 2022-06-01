@@ -105,6 +105,64 @@ class Settings(object):
                 "icon": "water.png",
                 "path": path_icons
             }
-        ]
+    ]
+
+    player_seed_actions = [
+        {
+            "title": "Rote Beete",
+            "item_id": 12,
+            "path": path_crops
+        },
+        {
+            "title": "Kraut",
+            "item_id": 13,
+            "path": path_crops
+        },
+        {
+            "title": "Blumenkohl",
+            "item_id": 14,
+            "path": path_crops
+        },
+        {
+            "title": "Grünkohl",
+            "item_id": 15,
+            "path": path_crops
+        },
+        {
+            "title": "Pastinake",
+            "item_id": 16,
+            "path": path_crops
+        },
+        {
+            "title": "Kürbis",
+            "item_id": 17,
+            "path": path_crops
+        },
+        {
+            "title": "Kartoffel",
+            "item_id": 18,
+            "path": path_crops
+        },
+        {
+            "title": "Radischen",
+            "item_id": 19,
+            "path": path_crops
+        },
+        {
+            "title": "Sonnenblume",
+            "item_id": 20,
+            "path": path_crops
+        },
+        {
+            "title": "Karotte",
+            "item_id": 21,
+            "path": path_crops
+        },
+        {
+            "title": "Weizen",
+            "item_id": 22,
+            "path": path_crops
+        }
+    ]
 
     storage_filename = "storage.json"
