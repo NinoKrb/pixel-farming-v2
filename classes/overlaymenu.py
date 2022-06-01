@@ -27,3 +27,5 @@ class OverlaySprite(pygame.sprite.Sprite):
 
 
 class OverlayMenu():
+    def __init__(self):
+        self.sprites = pygame.sprite.Group()

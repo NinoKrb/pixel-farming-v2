@@ -140,11 +140,9 @@ class Game():
         else:
             if self.overlay_state:
                 self.overlay_manager.draw(self.screen)
-
             for modal in self.modals:
                 modal.draw(self.screen)
         self.cursor.draw(self.screen)
-
         pygame.display.flip()
 
     def update_zoom(self):
