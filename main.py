@@ -56,6 +56,7 @@ class Game():
 
         self.zoom = Settings.zoom_default
         self.inventory_font = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 14)
+        self.inventory_font_big = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 20)
 
         self.screen = pygame.display.set_mode((Settings.window_width, Settings.window_height))
         self.clock = pygame.time.Clock()
