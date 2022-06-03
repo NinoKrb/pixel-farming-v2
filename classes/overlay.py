@@ -30,6 +30,8 @@ class OverlaySprite(pygame.sprite.Sprite):
 
 class OverlayManager():
     def __init__(self, game):
+        self.amount_label = None
+        self.seed_label = None
         self.money_label = None
         self.sprites = pygame.sprite.Group()
         self.game = game
@@ -45,6 +47,13 @@ class OverlayManager():
 
         self.money_label = self.game.inventory_font.render(f"{self.game.money}c", True, (255, 255, 255))
         screen.blit(self.money_label, (Settings.window_width - 110, 26))
+
+        if self.game.action['name'] == "seed":
+            self.seed_label = self.game.inventory_font_big.render(f"{self.game.inventory.find_item(self.game.current_seed['item_id']).item.name}", True, (255, 255, 255))
+            screen.blit(self.seed_label, (self.current_action_item.rect.right + 25, self.current_action_item.rect.top))
+
+            self.amount_label = self.game.inventory_font.render(f"{self.game.inventory.get_amount_by_id(self.game.current_seed['item_id'])}", True, (255, 255, 255))
+            screen.blit(self.amount_label, (self.current_action_item.rect.right + 25, self.current_action_item.rect.top + self.seed_label.get_rect().height + 5))
 
     def update(self):
         pass
