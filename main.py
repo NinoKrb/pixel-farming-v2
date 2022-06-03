@@ -193,12 +193,14 @@ class Game():
                     if self.action['name'] == "seed":
                         if self.current_seed_action != 0:
                             self.current_seed_action -= 1
+                            self.overlay_manager.reset_alpha("seed_label")
                             self.overlay_manager.current_action_item.update_sprite(self.inventory.find_item(self.current_seed['item_id']).item.image, self.current_seed['path'])
 
                 if event.key == pygame.K_RIGHT:
                     if self.action['name'] == "seed":
                         if self.current_seed_action != len(self.seed_actions) - 1:
                             self.current_seed_action += 1
+                            self.overlay_manager.reset_alpha("seed_label")
                             self.overlay_manager.current_action_item.update_sprite(self.inventory.find_item(self.current_seed['item_id']).item.image, self.current_seed['path'])
 
             if event.type == pygame.QUIT:
