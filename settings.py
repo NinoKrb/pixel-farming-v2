@@ -165,4 +165,8 @@ class Settings(object):
         }
     ]
 
+    overlay_alpha_timer = 100
+    overlay_alpha_step = 25
+    overlay_alpha_max = 255
+
     storage_filename = "storage.json"
