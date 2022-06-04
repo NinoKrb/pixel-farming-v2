@@ -42,8 +42,6 @@ class Settings(object):
         "map_field_6.csv": 200
     }
 
-    replant_time = 100000
-
     cursor_size = (19, 19)
     cursors = {
         "default": "cursor_01.png",
