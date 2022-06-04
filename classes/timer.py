@@ -16,4 +16,4 @@ class Timer(object):
         return False
 
     def report(self):
-        print(f"Aktuelle Zeit: {pygame.time.get_ticks()}, Nächster Timer: {self.next}")
+        print(f"Current time: {pygame.time.get_ticks()}, Next timer: {self.next}")

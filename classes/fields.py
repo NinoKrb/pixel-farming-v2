@@ -118,7 +118,6 @@ class CropTile(FieldTile):
                 if self.growth_state == -1:
                     if self.game.action['name'] == "seed":
                         self.seed()
-                        print("Try to seed")
 
                 elif self.growth_state != self.crop_type['max_growth_state']:
                     if self.game.action['name'] == "water":
@@ -164,16 +163,14 @@ class CropTile(FieldTile):
     def seed(self):
         if self.field in self.game.owned_fields:
             # Update crop type with seed attributes
-            print(self.crop_type['seed_item_id'], self.game.current_seed['item_id'])
             if self.crop_type['seed_item_id'] != self.game.current_seed['item_id']:
                 self.crop_type = self.game.field_manager.find_crop_type_by_seed(self.game.current_seed['item_id'])
-                print(f"UPDATE SEED: {self.crop_type}")
 
             if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
                 state = self.get_growth_state(1)
                 self.update_sprite(state['image'])
                 self.growth_state = 0
-                print("Plant new Crop")
+
             else:
                 print("Not enough Crops")
 
@@ -303,8 +300,7 @@ class FieldManager():
                                     npc_pos = (x * Settings.tile_width, y * Settings.tile_height)
                                     if field in self.game.owned_fields:
                                         self.game.create_npc((x * Settings.tile_width, y * Settings.tile_height))
-                                    else:
-                                        print("Kein NPC erzeugt, da Feld nicht gekauft wurde")
+
                                 field_tiles.add(
                                     FieldTile(
                                         self.game,
