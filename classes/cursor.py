@@ -6,6 +6,7 @@ class Cursor():
     def __init__(self, filename):
         self.rect = None
         self.image = None
+        self.filename = None
         self.action = "hand"
         self.pos = (0, 0)
         pygame.mouse.set_visible(False)
@@ -19,6 +20,7 @@ class Cursor():
         self.rect.x, self.rect.y = x, y
 
     def update_sprite(self, filename):
+        self.filename = filename
         self.image = pygame.image.load(os.path.join(Settings.path_cursors, filename)).convert_alpha()
         self.image = pygame.transform.scale(self.image, Settings.cursor_size)
         self.rect = self.image.get_rect()
