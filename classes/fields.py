@@ -71,7 +71,6 @@ class CropTile(FieldTile):
         self.crop_type = attributes
         self.field = field
 
-        self.replant_timer = Timer(Settings.replant_time)
         self.watering_timer = Timer(self.crop_type['watering_timer'] * random.uniform(*Settings.crop_watering_range))
         self.growth_timer = Timer(self.crop_type['growth_timer'] * random.uniform(*Settings.crop_growth_range))
         self.growth_state = growth_state
@@ -79,7 +78,6 @@ class CropTile(FieldTile):
         self.is_hovered = False
         self.is_pressed = False
         self.is_watered = False
-        self.can_replant = False
 
     def get_growth_state(self, id):
         for tile in self.crop_type['tiles']:
@@ -95,13 +93,13 @@ class CropTile(FieldTile):
         if self.watering_timer.is_next_stop_reached():
             self.is_watered = False
 
-        if self.replant_timer.is_next_stop_reached():
-            self.can_replant = True
+        if self.growth_state < -1:
+            self.growth_state = -1
 
     def cursor_logic(self):
         cursor = None
         if self.check_cursor_position():
-            if self.growth_state == -1 and self.can_replant and self.game.action['name'] == "seed":
+            if self.growth_state == -1 and self.game.action['name'] == "seed":
                 cursor = self.crop_type['seed_cursor']
             elif self.growth_state != self.crop_type['max_growth_state'] and self.game.action['name'] == "water":
                 cursor = self.crop_type['hover_cursor']
@@ -110,21 +108,24 @@ class CropTile(FieldTile):
                     cursor = self.crop_type['max_hover_cursor']
 
             if cursor:
-                self.game.cursor.update_sprite(Settings.cursors[cursor])
-                self.is_hovered = True
+                if Settings.cursors[cursor] != self.game.cursor.filename:
+                    old_pos = self.game.cursor.pos
+                    self.game.cursor.update_sprite(Settings.cursors[cursor])
+                    self.game.cursor.set_pos(*old_pos)
+                    self.is_hovered = True
 
             if self.game.cursor.get_pressed((1, 0, 0)) and not self.is_pressed:
                 if self.growth_state == -1:
                     if self.game.action['name'] == "seed":
-                        if self.can_replant:
-                            self.seed()
-                        else:
-                            print("Try to plant new Crop")
+                        self.seed()
+                        print("Try to seed")
+
                 elif self.growth_state != self.crop_type['max_growth_state']:
                     if self.game.action['name'] == "water":
                         if not self.is_watered:
                             self.is_watered = True
                             self.grow()
+
                 else:
                     if self.game.action['name'] == "farm":
                         self.harvest()
@@ -147,7 +148,6 @@ class CropTile(FieldTile):
                     state = self.get_growth_state(self.growth_state)
                     if state:
                         self.update_sprite(state['image'])
-                    self.can_replant = False
 
     def harvest(self):
         if self.field in self.game.owned_fields:
@@ -159,16 +159,20 @@ class CropTile(FieldTile):
                 self.game.inventory.add_item(self.crop_type['item_id'], 1)
             if self.crop_type['seed_item_id'] != 0:
                 self.game.inventory.add_item(self.crop_type['seed_item_id'], 1)
-            self.can_replant = False
             # self.game.inventory.report()
 
     def seed(self):
         if self.field in self.game.owned_fields:
+            # Update crop type with seed attributes
+            print(self.crop_type['seed_item_id'], self.game.current_seed['item_id'])
+            if self.crop_type['seed_item_id'] != self.game.current_seed['item_id']:
+                self.crop_type = self.game.field_manager.find_crop_type_by_seed(self.game.current_seed['item_id'])
+                print(f"UPDATE SEED: {self.crop_type}")
+
             if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
                 state = self.get_growth_state(1)
                 self.update_sprite(state['image'])
                 self.growth_state = 0
-
                 print("Plant new Crop")
             else:
                 print("Not enough Crops")
@@ -186,9 +190,14 @@ class FieldManager():
             if field.name in self.game.owned_fields:
                 for crop_tile in field.crop_tiles:
                     if crop_tile.crop_type['id'] != 0:
+                        # Validate Growstate
+                        grow_state = crop_tile.growth_state - 1
+                        if grow_state < -1:
+                            grow_state = -1
+
                         save_able_crops.append({
                             "crop_id": crop_tile.crop_type['id'],
-                            "growth_state": crop_tile.growth_state - 1,
+                            "growth_state": grow_state,
                             "position": {
                                 "x": crop_tile.pos[0],
                                 "y": crop_tile.pos[1]
@@ -233,6 +242,16 @@ class FieldManager():
             crop_types[f"{crop['id']}"] = crop
 
         return crop_types
+
+    def find_crop_type_by_seed(self, id):
+        for crop_type in self.crop_types.values():
+            if crop_type['seed_item_id'] == id:
+                return crop_type
+
+    def find_crop_type_by_item(self, id):
+        for crop_type in self.crop_types.values():
+            if crop_type['item_id'] == id:
+                return crop_type
 
     def update_zoom(self):
         for field in self.fields:
@@ -316,7 +335,7 @@ class FieldManager():
                                             CropTile(
                                                 self.game,
                                                 field,
-                                                self.crop_types["3"],
+                                                self.crop_types["0"],
                                                 (x * Settings.tile_width, y * Settings.tile_height),
                                                 (Settings.tile_width, Settings.tile_height)
                                             )
