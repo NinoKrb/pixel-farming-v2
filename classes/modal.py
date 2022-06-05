@@ -37,7 +37,7 @@ class Modal():
         self.game = game
         self.visible = False
         self.container = ModalSprite(self.game, "modal_container.png", (Settings.window_width // 2 - 216, 100), (432, 250), Settings.path_image)
-        self.text = ["Bist du dir sicher dass du dieses", " Feld fuer 200 Credits", "kaufen moechtest"]
+        self.text = ["Bist du dir sicher dass du dieses", " Feld kaufen moechtest"]
         self.title = "Feld Kaufen"
         self.button_left = "Abbrechen"
         self.button_right = "Kaufen"

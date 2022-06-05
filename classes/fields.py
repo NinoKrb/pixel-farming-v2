@@ -168,6 +168,8 @@ class CropTile(FieldTile):
         if self.field in self.game.owned_fields:
             # Update crop type with seed attributes
             if self.crop_type['seed_item_id'] != self.game.current_seed['item_id']:
+                print(self.game.current_seed['item_id'])
+                print(self.game.field_manager.find_crop_type_by_seed(self.game.current_seed['item_id']))
                 self.crop_type = self.game.field_manager.find_crop_type_by_seed(self.game.current_seed['item_id'])
 
             if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
@@ -208,7 +210,7 @@ class FieldManager():
         return save_able_crops
 
     def buy_field(self, target_field):
-        self.game.alert_manager.create_alert(f"Feld gekauft: {target_field}")
+        self.game.alert_manager.create_alert(f"Feld gekauft")
         selected_field = None
         for field in self.fields:
             if field.name == target_field:
@@ -246,6 +248,7 @@ class FieldManager():
 
     def find_crop_type_by_seed(self, id):
         for crop_type in self.crop_types.values():
+            print(crop_type['seed_item_id'], id)
             if crop_type['seed_item_id'] == id:
                 return crop_type
 

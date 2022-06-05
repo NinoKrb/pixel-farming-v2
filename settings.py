@@ -126,7 +126,7 @@ class Settings(object):
             "path": path_crops
         },
         {
-            "title": "Grünkohl",
+            "title": "Gruenkohl",
             "item_id": 15,
             "path": path_crops
         },
@@ -136,7 +136,7 @@ class Settings(object):
             "path": path_crops
         },
         {
-            "title": "Kürbis",
+            "title": "Kuerbis",
             "item_id": 17,
             "path": path_crops
         },
@@ -275,11 +275,6 @@ class Settings(object):
         },
         {
             "item_id": 11,
-            "price": 75,
-            "action": "sell"
-        },
-        {
-            "item_id": 12,
             "price": 75,
             "action": "sell"
         }

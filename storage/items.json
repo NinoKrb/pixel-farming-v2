@@ -17,7 +17,7 @@
         },
         {
             "id": 4,
-            "name" : "Grünkohl",
+            "name" : "Gruenkohl",
             "image": "kale_05.png"
         },
         {
@@ -27,7 +27,7 @@
         },
         {
             "id": 6,
-            "name" : "Kürbis",
+            "name" : "Kuerbis",
             "image": "pumpkin_05.png"
         },
         {
@@ -72,7 +72,7 @@
         },
         {
             "id": 15,
-            "name" : "Grünkohl Samen",
+            "name" : "Gruenkohl Samen",
             "image": "kale_00.png"
         },
         {
@@ -82,7 +82,7 @@
         },
         {
             "id": 17,
-            "name" : "Kürbis Samen",
+            "name" : "Kuerbis Samen",
             "image": "pumpkin_00.png"
         },
         {
