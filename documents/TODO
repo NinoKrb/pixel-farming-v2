@@ -1,11 +1,12 @@
 [ ] Character Foodsteps*
 [ ] Kaputte Crops beim Drüberlaufen*
 [x] Saatgut auswählen
-[ ] Klick action auf Shop
+[x] Klick action auf Shop
 [ ] Angeln*
-[ ] Sounds
-[ ] Pause Menü (Mutebutton für Sounds)
+[x] Sounds
+[x] Pause Menü (Mutebutton für Sounds)
 [ ] Shop Items einpflegen
 [ ] Fix hover fields
-[ ] remove zoom
+[x] remove zoom
 [ ] Quests*
+[ ] Alerts / Toasts
