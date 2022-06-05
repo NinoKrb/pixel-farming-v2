@@ -21,10 +21,12 @@ class Settings(object):
     path_assets = os.path.join(path_file, "assets")
     path_image = os.path.join(path_assets, "images")
     path_font = os.path.join(path_assets, "fonts")
+    path_sounds = os.path.join(path_assets, "sounds")
     path_crops = os.path.join(path_image, "crops")
     path_cursors = os.path.join(path_image, "cursors")
     path_icons = os.path.join(path_image, "icons")
     path_texts = os.path.join(path_image, "text")
+    path_soundtracks = os.path.join(path_sounds, "soundtracks")
 
     path_storage = os.path.join(path_file, "storage")
     path_fields = os.path.join(path_storage, "fields")
@@ -161,6 +163,131 @@ class Settings(object):
             "item_id": 22,
             "path": path_crops
         }
+    ]
+
+    shop_items = [
+        {
+            "item_id": 12,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 13,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 14,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 15,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 16,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 17,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 18,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 19,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 20,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 21,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 22,
+            "price": 25,
+            "action": "buy"
+        },
+        {
+            "item_id": 1,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 2,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 3,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 4,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 5,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 6,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 7,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 8,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 9,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 10,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 11,
+            "price": 75,
+            "action": "sell"
+        },
+        {
+            "item_id": 12,
+            "price": 75,
+            "action": "sell"
+        }
+    ]
+
+    default_playlist = [
+        os.path.join(path_soundtracks, "Soundtrack_1.mp3"),
+        os.path.join(path_soundtracks, "Soundtrack_2.mp3"),
+        os.path.join(path_soundtracks, "Soundtrack_3.mp3"),
+        os.path.join(path_soundtracks, "Soundtrack_4.mp3")
     ]
 
     overlay_alpha_timer = 100
