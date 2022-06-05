@@ -286,10 +286,10 @@ class Settings(object):
     ]
 
     default_playlist = [
-        os.path.join(path_soundtracks, "Soundtrack_1.mp3"),
-        os.path.join(path_soundtracks, "Soundtrack_2.mp3"),
-        os.path.join(path_soundtracks, "Soundtrack_3.mp3"),
-        os.path.join(path_soundtracks, "Soundtrack_4.mp3")
+        os.path.join(path_soundtracks, "Soundtrack_1.wav"),
+        os.path.join(path_soundtracks, "Soundtrack_2.wav"),
+        os.path.join(path_soundtracks, "Soundtrack_3.wav"),
+        os.path.join(path_soundtracks, "Soundtrack_4.wav")
     ]
 
     overlay_alpha_timer = 100
