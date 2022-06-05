@@ -66,7 +66,7 @@ class FieldSignTile(FieldTile):
 
 
 class CropTile(FieldTile):
-    def __init__(self, game, field, attributes, pos, size, growth_state=0):
+    def __init__(self, game, field, attributes, pos, size, growth_state=-1):
         super().__init__(game, attributes['fallback_image'], pos, size, Settings.path_crops)
         self.crop_type = attributes
         self.field = field
@@ -78,6 +78,10 @@ class CropTile(FieldTile):
         self.is_hovered = False
         self.is_pressed = False
         self.is_watered = False
+
+        # Update crop image with saved growth state
+        growth_state = self.get_growth_state(self.growth_state)
+        self.update_sprite(growth_state['image'])
 
     def get_growth_state(self, id):
         for tile in self.crop_type['tiles']:
@@ -150,7 +154,7 @@ class CropTile(FieldTile):
 
     def harvest(self):
         if self.field in self.game.owned_fields:
-            state = self.get_growth_state(0)
+            state = self.get_growth_state(-1)
             self.update_sprite(state['image'])
             self.growth_state = -1
 
@@ -188,7 +192,7 @@ class FieldManager():
                 for crop_tile in field.crop_tiles:
                     if crop_tile.crop_type['id'] != 0:
                         # Validate Growstate
-                        grow_state = crop_tile.growth_state - 1
+                        grow_state = crop_tile.growth_state
                         if grow_state < -1:
                             grow_state = -1
 

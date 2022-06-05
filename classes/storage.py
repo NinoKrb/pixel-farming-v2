@@ -44,7 +44,9 @@ class Storage():
                 return scoreset
         return False
 
-    def save_storage(self, game):
+    def save_storage(self, game=None):
+        if game is None:
+            game = self.game
         data, file = self.load_save_games()
         for score_set in data['save_games']:
             if score_set['id'] == self.save_game:
