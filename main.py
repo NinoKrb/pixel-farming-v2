@@ -1,18 +1,16 @@
 import random
-
-import pygame, os
-from settings import Settings
 from classes.cursor import Cursor
 from classes.fields import FieldManager
 from classes.item import ItemManager
 from classes.inventory import InventoryHandler, InventoryManager
 from classes.shop import ShopManager, ShopItem
 from classes.overlay import OverlayManager
-from classes.player import Character, WalkingNPC
+from classes.player import WalkingNPC
 from classes.map import Map
 from classes.storage import Storage
 from classes.music import MusicPlayer
 from classes.overlaymenu import *
+from classes.alert import AlertManager
 
 
 class ImageLayer(pygame.sprite.Sprite):
@@ -88,11 +86,15 @@ class Game():
         self.modals = []
 
         self.zoom = Settings.zoom_default
+        self.inventory_font_small = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 10)
         self.inventory_font = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 14)
         self.inventory_font_big = pygame.font.Font(os.path.join(Settings.path_font, "8-BIT WONDER.TTF"), 20)
 
         self.screen = pygame.display.set_mode((Settings.window_width, Settings.window_height))
         self.clock = pygame.time.Clock()
+
+        self.alert_manager = AlertManager(self)
+        self.alert_manager.create_alert("Willkommen bei PixelFarming V2")
 
         self.music_player = MusicPlayer()
 
@@ -166,6 +168,7 @@ class Game():
         if not self.pause_state:
             self.field_manager.update()
             self.characters.update()
+            self.alert_manager.update()
 
             for modal in self.modals:
                 modal.update()
@@ -188,6 +191,8 @@ class Game():
 
         if self.pause_state:
             self.pause_menu.run()
+        else:
+            self.alert_manager.draw(self.screen)
 
         self.cursor.draw(self.screen)
         pygame.display.flip()

@@ -294,4 +294,8 @@ class Settings(object):
     overlay_alpha_step = 25
     overlay_alpha_max = 255
 
+    alert_pos = (25, 25)
+    alert_color = (255, 255, 255)
+    alert_duration = 2000
+
     storage_filename = "storage.json"

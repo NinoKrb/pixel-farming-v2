@@ -176,7 +176,7 @@ class CropTile(FieldTile):
                 self.growth_state = 0
 
             else:
-                print("Not enough Crops")
+                self.game.alert_manager.create_alert("Nicht genug Samen")
 
 
 class FieldManager():
@@ -208,7 +208,7 @@ class FieldManager():
         return save_able_crops
 
     def buy_field(self, target_field):
-        print(f"Buy target field: {target_field}")
+        self.game.alert_manager.create_alert(f"Feld gekauft: {target_field}")
         selected_field = None
         for field in self.fields:
             if field.name == target_field:

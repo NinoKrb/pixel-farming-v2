@@ -22,17 +22,17 @@ class ShopSlot(MenuSlot):
                     if self.game.money >= self.itemstack.price:
                         self.game.money -= self.itemstack.price
                         self.game.inventory.add_item(self.itemstack.item.id, 1)
-                        print("Item buyed")
+                        self.game.alert_manager.create_alert("Item gekauft")
                     else:
-                        print("Not enough money")
+                        self.game.alert_manager.create_alert("Nicht genug Geld")
 
                 elif self.itemstack.action == "sell":
                     if self.game.inventory.get_amount_by_id(self.itemstack.item.id) >= 1:
                         self.game.money += self.itemstack.price
                         self.game.inventory.remove_item(self.itemstack.item.id, 1)
-                        print(f"Balance: {self.game.money} Credits")
+                        self.game.alert_manager.create_alert("Item verkauft")
                     else:
-                        print("Not enough items")
+                        self.game.alert_manager.create_alert("Nicht genug Items")
 
     def check_cursor_position(self):
         if self.item_sprite:
