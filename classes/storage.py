@@ -19,7 +19,7 @@ class Storage():
         data, file = self.load_save_games()
         new_save_game = {
             "id": save_game_id,
-            "money": "",
+            "money": Settings.start_money,
             "owned_fields": [],
             "inventory": [],
             "crops": []
