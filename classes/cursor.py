@@ -24,6 +24,7 @@ class Cursor():
         self.image = pygame.image.load(os.path.join(Settings.path_cursors, filename)).convert_alpha()
         self.image = pygame.transform.scale(self.image, Settings.cursor_size)
         self.rect = self.image.get_rect()
+        self.set_pos(*self.pos)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

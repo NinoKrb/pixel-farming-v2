@@ -103,19 +103,19 @@ class CropTile(FieldTile):
     def cursor_logic(self):
         cursor = None
         if self.check_cursor_position():
-            if self.growth_state == -1 and self.game.action['name'] == "seed":
-                cursor = self.crop_type['seed_cursor']
-            elif self.growth_state != self.crop_type['max_growth_state'] and self.game.action['name'] == "water":
-                cursor = self.crop_type['hover_cursor']
+            if self.growth_state == -1:
+                if self.game.action['name'] == "seed":
+                    cursor = self.crop_type['seed_cursor']
+            elif self.growth_state != self.crop_type['max_growth_state']:
+                if self.game.action['name'] == "water":
+                    cursor = self.crop_type['hover_cursor']
             else:
                 if self.game.action['name'] == "farm":
                     cursor = self.crop_type['max_hover_cursor']
 
             if cursor:
                 if Settings.cursors[cursor] != self.game.cursor.filename:
-                    old_pos = self.game.cursor.pos
                     self.game.cursor.update_sprite(Settings.cursors[cursor])
-                    self.game.cursor.set_pos(*old_pos)
                     self.is_hovered = True
 
             if self.game.cursor.get_pressed((1, 0, 0)) and not self.is_pressed:
@@ -171,7 +171,7 @@ class CropTile(FieldTile):
                 self.crop_type = self.game.field_manager.find_crop_type_by_seed(self.game.current_seed['item_id'])
 
             if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
-                state = self.get_growth_state(1)
+                state = self.get_growth_state(0)
                 self.update_sprite(state['image'])
                 self.growth_state = 0
 
@@ -191,7 +191,7 @@ class FieldManager():
             if field.name in self.game.owned_fields:
                 for crop_tile in field.crop_tiles:
                     if crop_tile.crop_type['id'] != 0:
-                        # Validate Growstate
+                        # Validate Grow state
                         grow_state = crop_tile.growth_state
                         if grow_state < -1:
                             grow_state = -1
