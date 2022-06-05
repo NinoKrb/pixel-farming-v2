@@ -179,7 +179,7 @@
             "id": 5,
             "item_id": 4,
             "seed_item_id": 15,
-            "title": "Grünkohl",
+            "title": "Gruenkohl",
             "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
@@ -257,7 +257,7 @@
             "id": 7,
             "item_id": 6,
             "seed_item_id": 17,
-            "title": "Kürbis",
+            "title": "Kuerbis",
             "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
@@ -449,7 +449,7 @@
             ]
         },
         {
-            "id": 11,
+            "id": 12,
             "item_id": 11,
             "seed_item_id": 22,
             "title": "Weizen",

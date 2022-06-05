@@ -12,14 +12,13 @@ class Storage():
         self.storage = self.load_storage()
         if not self.storage:
             self.create_save_game(self.save_game)
-            self.save_storage(self.game)
             self.storage = self.load_storage()
 
     def create_save_game(self, save_game_id):
         data, file = self.load_save_games()
         new_save_game = {
             "id": save_game_id,
-            "money": "",
+            "money": Settings.start_money,
             "owned_fields": [],
             "inventory": [],
             "crops": []

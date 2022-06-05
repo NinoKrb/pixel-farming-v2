@@ -10,6 +10,8 @@ class Settings(object):
     tile_width = 16
     tile_height = 16
 
+    start_money = 25000
+
     zoom_default = 1
     zoom_max = 2.5
     zoom_min = 1
@@ -36,12 +38,12 @@ class Settings(object):
     crop_watering_range = (1, 1)
 
     field_prices = {
-        "map_field_1.csv": 200,
-        "map_field_2.csv": 200,
-        "map_field_3.csv": 200,
-        "map_field_4.csv": 200,
-        "map_field_5.csv": 200,
-        "map_field_6.csv": 200
+        "map_field_1.csv": 25000,
+        "map_field_2.csv": 25000,
+        "map_field_3.csv": 50000,
+        "map_field_4.csv": 50000,
+        "map_field_5.csv": 75000,
+        "map_field_6.csv": 100000
     }
 
     cursor_size = (19, 19)
@@ -124,7 +126,7 @@ class Settings(object):
             "path": path_crops
         },
         {
-            "title": "Grünkohl",
+            "title": "Gruenkohl",
             "item_id": 15,
             "path": path_crops
         },
@@ -134,7 +136,7 @@ class Settings(object):
             "path": path_crops
         },
         {
-            "title": "Kürbis",
+            "title": "Kuerbis",
             "item_id": 17,
             "path": path_crops
         },
@@ -275,19 +277,14 @@ class Settings(object):
             "item_id": 11,
             "price": 75,
             "action": "sell"
-        },
-        {
-            "item_id": 12,
-            "price": 75,
-            "action": "sell"
         }
     ]
 
     default_playlist = [
-        os.path.join(path_soundtracks, "Soundtrack_1.mp3"),
-        os.path.join(path_soundtracks, "Soundtrack_2.mp3"),
-        os.path.join(path_soundtracks, "Soundtrack_3.mp3"),
-        os.path.join(path_soundtracks, "Soundtrack_4.mp3")
+        os.path.join(path_soundtracks, "Soundtrack_1.wav"),
+        os.path.join(path_soundtracks, "Soundtrack_2.wav"),
+        os.path.join(path_soundtracks, "Soundtrack_3.wav"),
+        os.path.join(path_soundtracks, "Soundtrack_4.wav")
     ]
 
     overlay_alpha_timer = 100
