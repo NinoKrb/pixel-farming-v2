@@ -14,3 +14,6 @@ class Timer(object):
             self.next = pygame.time.get_ticks() + self.duration
             return True
         return False
+
+    def report(self):
+        print(f"Current time: {pygame.time.get_ticks()}, Next timer: {self.next}")

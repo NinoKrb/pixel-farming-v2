@@ -2,31 +2,43 @@
     "crops": [
         {
             "id": 0,
+            "item_id": 0,
+            "seed_item_id": 0,
             "title": "Nichts",
-            "fallback_image": "soil_01.png",
-            "growth_timer": -1,
-            "watering_timer": -1,
+            "fallback_image": "soil_00.png",
+            "growth_timer": 1,
+            "watering_timer": 1,
             "max_growth_state": 0,
-            "hover_cursor": "default",
-            "max_hover_cursor": "default",
-            "seed_cursor": "default"
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                }
+            ]
         },
         {
             "id": 1,
             "item_id": 7,
             "seed_item_id": 18,
             "title": "Kartoffel",
-            "fallback_image": "potato_01.png",
+            "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
-            "max_growth_state": 5,
+            "max_growth_state": 4,
             "hover_cursor": "water",
             "max_hover_cursor": "shovel",
             "seed_cursor": "hand_1_open",
             "tiles": [
                 {
-                    "growth_state": 0,
+                    "growth_state": -1,
                     "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 1,
@@ -51,17 +63,21 @@
             "item_id": 1,
             "seed_item_id": 12,
             "title": "Rote Beete",
-            "fallback_image": "beetroot_01.png",
+            "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
-            "max_growth_state": 5,
+            "max_growth_state": 4,
             "hover_cursor": "water",
             "max_hover_cursor": "shovel",
             "seed_cursor": "hand_1_open",
             "tiles": [
                 {
-                    "growth_state": 0,
+                    "growth_state": -1,
                     "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 1,
@@ -86,17 +102,21 @@
             "item_id": 2,
             "seed_item_id": 13,
             "title": "Kraut",
-            "fallback_image": "cabbage_01.png",
+            "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
-            "max_growth_state": 5,
+            "max_growth_state": 4,
             "hover_cursor": "water",
             "max_hover_cursor": "shovel",
             "seed_cursor": "hand_1_open",
             "tiles": [
                 {
-                    "growth_state": 0,
+                    "growth_state": -1,
                     "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 1,
@@ -121,17 +141,21 @@
             "item_id": 3,
             "seed_item_id": 14,
             "title": "Blumenkohl",
-            "fallback_image": "cauliflower_01.png",
+            "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
-            "max_growth_state": 5,
+            "max_growth_state": 4,
             "hover_cursor": "water",
             "max_hover_cursor": "shovel",
             "seed_cursor": "hand_1_open",
             "tiles": [
                 {
-                    "growth_state": 0,
+                    "growth_state": -1,
                     "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 1,
@@ -156,17 +180,21 @@
             "item_id": 4,
             "seed_item_id": 15,
             "title": "Grünkohl",
-            "fallback_image": "kale_01.png",
+            "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
-            "max_growth_state": 5,
+            "max_growth_state": 4,
             "hover_cursor": "water",
             "max_hover_cursor": "shovel",
             "seed_cursor": "hand_1_open",
             "tiles": [
                 {
-                    "growth_state": 0,
+                    "growth_state": -1,
                     "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 1,
@@ -191,17 +219,21 @@
             "item_id": 5,
             "seed_item_id": 16,
             "title": "Pastinake",
-            "fallback_image": "parsnip_01.png",
+            "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
-            "max_growth_state": 5,
+            "max_growth_state": 4,
             "hover_cursor": "water",
             "max_hover_cursor": "shovel",
             "seed_cursor": "hand_1_open",
             "tiles": [
                 {
-                    "growth_state": 0,
+                    "growth_state": -1,
                     "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 1,
@@ -226,17 +258,21 @@
             "item_id": 6,
             "seed_item_id": 17,
             "title": "Kürbis",
-            "fallback_image": "pumpkin_01.png",
+            "fallback_image": "soil_00.png",
             "growth_timer": 5000,
             "watering_timer": 100000,
-            "max_growth_state": 5,
+            "max_growth_state": 4,
             "hover_cursor": "water",
             "max_hover_cursor": "shovel",
             "seed_cursor": "hand_1_open",
             "tiles": [
                 {
-                    "growth_state": 0,
+                    "growth_state": -1,
                     "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
                 },
                 {
                     "growth_state": 1,
@@ -253,6 +289,201 @@
                 {
                     "growth_state": 4,
                     "image": "pumpkin_04.png"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "item_id": 7,
+            "seed_item_id": 18,
+            "title": "Kartoffel",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "potato_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "potato_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "potato_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "potato_04.png"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "item_id": 8,
+            "seed_item_id": 19,
+            "title": "Radischen",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "radish_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "radish_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "radish_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "radish_04.png"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "item_id": 9,
+            "seed_item_id": 20,
+            "title": "Sonnenblume",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "sunflower_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "sunflower_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "sunflower_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "sunflower_04.png"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "item_id": 10,
+            "seed_item_id": 21,
+            "title": "Karotte",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "carrot_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "carrot_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "carrot_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "carrot_04.png"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "item_id": 11,
+            "seed_item_id": 22,
+            "title": "Weizen",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "wheat_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "wheat_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "wheat_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "wheat_04.png"
                 }
             ]
         }
