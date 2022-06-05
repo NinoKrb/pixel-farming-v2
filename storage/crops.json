@@ -291,6 +291,201 @@
                     "image": "pumpkin_04.png"
                 }
             ]
+        },
+        {
+            "id": 8,
+            "item_id": 7,
+            "seed_item_id": 18,
+            "title": "Kartoffel",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "potato_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "potato_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "potato_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "potato_04.png"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "item_id": 8,
+            "seed_item_id": 19,
+            "title": "Radischen",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "radish_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "radish_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "radish_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "radish_04.png"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "item_id": 9,
+            "seed_item_id": 20,
+            "title": "Sonnenblume",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "sunflower_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "sunflower_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "sunflower_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "sunflower_04.png"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "item_id": 10,
+            "seed_item_id": 21,
+            "title": "Karotte",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "carrot_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "carrot_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "carrot_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "carrot_04.png"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "item_id": 11,
+            "seed_item_id": 22,
+            "title": "Weizen",
+            "fallback_image": "soil_00.png",
+            "growth_timer": 5000,
+            "watering_timer": 100000,
+            "max_growth_state": 4,
+            "hover_cursor": "water",
+            "max_hover_cursor": "shovel",
+            "seed_cursor": "hand_1_open",
+            "tiles": [
+                {
+                    "growth_state": -1,
+                    "image": "soil_00.png"
+                },
+                {
+                    "growth_state": 0,
+                    "image": "soil_01.png"
+                },
+                {
+                    "growth_state": 1,
+                    "image": "wheat_01.png"
+                },
+                {
+                    "growth_state": 2,
+                    "image": "wheat_02.png"
+                },
+                {
+                    "growth_state": 3,
+                    "image": "wheat_03.png"
+                },
+                {
+                    "growth_state": 4,
+                    "image": "wheat_04.png"
+                }
+            ]
         }
     ]
 }
