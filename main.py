@@ -11,6 +11,8 @@ from classes.overlay import OverlayManager
 from classes.player import Character, WalkingNPC
 from classes.map import Map
 from classes.storage import Storage
+from classes.music import MusicPlayer
+from classes.overlaymenu import *
 
 
 class ImageLayer(pygame.sprite.Sprite):
@@ -40,6 +42,37 @@ class CollisionLayer(ImageLayer):
         super().__init__(game, filename)
         self.mask = pygame.mask.from_surface(self.image)
 
+    def check_collision(self):
+        if self.check_cursor_position(self.rect):
+            if self.game.cursor.get_pressed((1, 0, 0)):
+                self.game.shop_state = True
+
+    def check_cursor_position(self, surface):
+        if pygame.Rect.collidepoint(surface, *self.game.cursor.pos):
+            return True
+        return False
+
+
+class ShopCollisionLayer(CollisionLayer):
+    def __init__(self, game, filename, size, pos):
+        self.pos = pos
+        self.size = size
+        super().__init__(game, filename)
+
+        self.update_zoom(self.image)
+        self.set_pos(*self.pos)
+
+    def update_zoom(self, image):
+        self.image = pygame.transform.scale(image, (
+            int(self.size[0] * self.game.zoom),
+            int(self.size[1] * self.game.zoom)
+        ))
+        self.rect = self.image.get_rect()
+
+    def set_pos(self, x, y):
+        self.rect.top = y
+        self.rect.left = x
+
 
 class Game():
     def __init__(self):
@@ -61,8 +94,10 @@ class Game():
         self.screen = pygame.display.set_mode((Settings.window_width, Settings.window_height))
         self.clock = pygame.time.Clock()
 
+        self.music_player = MusicPlayer()
+
         self.background = ImageLayer(self, "floor.png")
-        self.collision_layer = CollisionLayer(self, "collision.png")
+        self.collision_layer = ShopCollisionLayer(self, "collision.png", (80, 64), (368, 32))
 
         self.cursor = Cursor(Settings.cursors['default'])
 
@@ -76,11 +111,7 @@ class Game():
         self.inventory_manager = InventoryManager(self, 'inv_container.png', 'slot.png')
         self.inventory_manager.init_itemstacks(self.inventory.items)
 
-        shop_items = [
-            ShopItem(self.item_manager.get_item_by_id(13), 25, "buy"),
-            ShopItem(self.item_manager.get_item_by_id(14), 25, "buy"),
-            ShopItem(self.item_manager.get_item_by_id(2), 25, "sell")
-        ]
+        shop_items = [ShopItem(self.item_manager.get_item_by_id(item['item_id']), item['price'], item['action']) for item in Settings.shop_items]
         self.shop_manager = ShopManager(self, 'inv_container.png', 'slot.png')
         self.shop_manager.init_itemstacks(shop_items)
 
@@ -89,6 +120,9 @@ class Game():
         self.seed_actions = Settings.player_seed_actions
         self.current_action = 0
         self.current_seed_action = 0
+
+        # Screen Menus
+        self.pause_menu = PauseMenu(self)
 
         self.map_manager = Map(self)
 
@@ -116,6 +150,10 @@ class Game():
         }, size=Settings.npc_size, pos=pos)
         self.characters.add(new_character)
 
+    def quit(self):
+        self.save_game_manager.save_storage(self)
+        self.running = False
+
     def run(self):
         while self.running:
             self.clock.tick(Settings.fps)
@@ -125,10 +163,7 @@ class Game():
 
     def update(self):
         self.cursor.update()
-        if self.pause_state:
-            pass
-
-        else:
+        if not self.pause_state:
             self.field_manager.update()
             self.characters.update()
 
@@ -145,35 +180,41 @@ class Game():
         elif self.shop_state:
             self.shop_manager.draw(self.screen)
         else:
-            if self.overlay_state:
-                self.overlay_manager.draw(self.screen)
             for modal in self.modals:
                 modal.draw(self.screen)
+
+        if self.overlay_state:
+            self.overlay_manager.draw(self.screen)
+
+        if self.pause_state:
+            self.pause_menu.run()
+
         self.cursor.draw(self.screen)
         pygame.display.flip()
 
-    def update_zoom(self):
-        self.background.update_zoom(self.background.original_image)
-        self.collision_layer.update_zoom(self.collision_layer.original_image)
-        self.field_manager.update_zoom()
-
     def watch_for_events(self):
         for event in pygame.event.get():
+            if event.type == pygame.USEREVENT:
+                if self.music_player.is_queued():
+                    self.music_player.queue_soundtrack()
+
+                else:
+                    self.music_player.reset_playlist(True)
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.save_game_manager.save_storage(self)
-                    self.running = False
+                    if self.shop_state:
+                        self.shop_state = False
 
-                if event.key == pygame.K_e:
+                    elif self.inventory_state:
+                        self.inventory_state = False
+
+                    else:
+                        self.pause_state = not self.pause_state
+
+                if event.key == pygame.K_i:
                     if not self.shop_state:
                         self.inventory_state = not self.inventory_state
-
-                if event.key == pygame.K_p:
-                    self.pause_state = not self.pause_state
-
-                if event.key == pygame.K_s:
-                    if not self.inventory_state:
-                        self.shop_state = not self.shop_state
 
                 if event.key == pygame.K_h:
                     if not self.inventory_state or not self.shop_state:
@@ -204,21 +245,12 @@ class Game():
                             self.overlay_manager.current_action_item.update_sprite(self.inventory.find_item(self.current_seed['item_id']).item.image, self.current_seed['path'])
 
             if event.type == pygame.QUIT:
-                self.running = False
+                self.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.shop_state:
                     self.shop_manager.check_cursor()
 
-            # if event.type == pygame.MOUSEWHEEL:
-            # Zoom in
-            #     if event.y == 1:
-            #         new_zoom = round(self.zoom + Settings.zoom_step, 1)
+                else:
+                    self.collision_layer.check_collision()
 
-            # Zoom Out
-            #     else:
-            #         new_zoom = round(self.zoom - Settings.zoom_step, 1)
-
-            #     if Settings.zoom_max >= new_zoom >= Settings.zoom_min:
-            #         self.zoom = new_zoom
-            #         self.update_zoom()
