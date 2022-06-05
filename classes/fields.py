@@ -72,6 +72,7 @@ class CropTile(FieldTile):
         self.field = field
 
         self.watering_timer = Timer(self.crop_type['watering_timer'] * random.uniform(*Settings.crop_watering_range))
+
         self.growth_timer = Timer(self.crop_type['growth_timer'] * random.uniform(*Settings.crop_growth_range))
         self.growth_state = growth_state
 
@@ -93,6 +94,8 @@ class CropTile(FieldTile):
         self.cursor_logic()
         if self.growth_timer.is_next_stop_reached():
             self.grow()
+            if self.growth_state != -1:
+                print(self.growth_state)
 
         if self.watering_timer.is_next_stop_reached():
             self.is_watered = False
@@ -168,9 +171,8 @@ class CropTile(FieldTile):
         if self.field in self.game.owned_fields:
             # Update crop type with seed attributes
             if self.crop_type['seed_item_id'] != self.game.current_seed['item_id']:
-                print(self.game.current_seed['item_id'])
-                print(self.game.field_manager.find_crop_type_by_seed(self.game.current_seed['item_id']))
                 self.crop_type = self.game.field_manager.find_crop_type_by_seed(self.game.current_seed['item_id'])
+                self.growth_timer = Timer(self.crop_type['growth_timer'] * random.uniform(*Settings.crop_growth_range), False)
 
             if self.game.inventory.remove_item(self.crop_type['seed_item_id'], 1):
                 state = self.get_growth_state(0)
@@ -248,7 +250,6 @@ class FieldManager():
 
     def find_crop_type_by_seed(self, id):
         for crop_type in self.crop_types.values():
-            print(crop_type['seed_item_id'], id)
             if crop_type['seed_item_id'] == id:
                 return crop_type
 
