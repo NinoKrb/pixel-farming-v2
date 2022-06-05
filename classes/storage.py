@@ -12,7 +12,6 @@ class Storage():
         self.storage = self.load_storage()
         if not self.storage:
             self.create_save_game(self.save_game)
-            self.save_storage(self.game)
             self.storage = self.load_storage()
 
     def create_save_game(self, save_game_id):
