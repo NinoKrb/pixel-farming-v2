@@ -17,6 +17,23 @@ Here're some of the project's best features:
 *   Ongoing NPC interactions
 *   Marketplace to buy/sell goods
 
+<h2>📖 Explanation</h2>
+
+<h3>⌨️ Hotkeys</h3>
+
+*   ARROW UP: Next working tool
+*   ARROW DOWN: Previous working tool
+*   I: Open/Close the inventory
+*   ARROW LEFT/RIGHT: Selecting the seed (Special working tool)
+*   ESC: Pause menu
+
+
+<h3>📚 Weitere Informationen</h3>
+
+*   Buy field: Click on sign at edge of field
+*   Open store: Click on market stall
+
+
 <h2>🛠️ Installation Steps:</h2>
 
 <p>1. Install all needed Python libraries</p>
