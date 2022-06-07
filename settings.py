@@ -10,7 +10,7 @@ class Settings(object):
     tile_width = 16
     tile_height = 16
 
-    start_money = 25000
+    start_money = 27500
 
     zoom_default = 1
     zoom_max = 2.5
